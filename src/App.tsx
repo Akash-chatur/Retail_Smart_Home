@@ -5,6 +5,7 @@ import Login from './components/Login/Login';
 import Signup from './components/Signup/Signup';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { CssBaseline, AppBar, Toolbar, Typography, Button, Container, Paper, Box, ToggleButtonGroup, ToggleButton } from '@mui/material';
+import ProductManagement from './components/ProductManagement/ProductManagement';
 
 const theme = createTheme({
   palette: {
@@ -30,7 +31,7 @@ const AuthenticatedApp: React.FC = () => {
           <Button color="inherit" onClick={logout}>Logout</Button>
         </Toolbar>
       </AppBar>
-      <Container maxWidth="sm">
+      <Container maxWidth="lg">
         <Box sx={{ my: 4 }}>
           <Typography variant="h4" component="h1" gutterBottom>
             Welcome to SmartHomes, {user?.username}!
@@ -38,6 +39,7 @@ const AuthenticatedApp: React.FC = () => {
           <Typography variant="h6" gutterBottom>
             Role: {user?.role}
           </Typography>
+          {user?.role === 'Store Manager' && <ProductManagement />}
         </Box>
       </Container>
     </Box>
