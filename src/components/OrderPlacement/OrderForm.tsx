@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { TextField, Button, Typography, Select, MenuItem } from '@mui/material';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { useOrder } from './OrderContext';
+import { useAuth } from '../../context/AuthContext';
 
 interface OrderFormProps {
   clearCart: () => void;
@@ -19,6 +20,7 @@ const OrderForm: React.FC<OrderFormProps> = ({ clearCart }) => {
     storeLocation: '',
   });
   const { addOrder } = useOrder();
+  const { user } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -27,16 +29,20 @@ const OrderForm: React.FC<OrderFormProps> = ({ clearCart }) => {
     const delivery = new Date();
     delivery.setDate(delivery.getDate() + 14);
 
-    addOrder({
-      confirmation,
-      deliveryDate: delivery.toDateString(),
-      status: 'Processing',
-    });
+    if (user) {
+      addOrder({
+        id: Date.now(),
+        userId: user.id,
+        confirmation,
+        deliveryDate: delivery.toDateString(),
+        status: 'Processing',
+      });
 
-    clearCart(); // Clear the cart after placing the order
+      clearCart(); // Clear the cart after placing the order
 
-    alert(`Order placed! Confirmation: ${confirmation}, Delivery Date: ${delivery.toDateString()}`);
-    navigate('/order-status');
+      alert(`Order placed! Confirmation: ${confirmation}, Delivery Date: ${delivery.toDateString()}`);
+      navigate('/order-status');
+    }
   };
 
   const storeLocations = [

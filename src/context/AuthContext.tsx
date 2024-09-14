@@ -1,6 +1,7 @@
 import React, { createContext, useState, useContext, ReactNode } from 'react';
 
 type User = {
+  id: number;
   username: string;
   role: 'Store Manager' | 'Salesman' | 'Customer';
 };
@@ -22,10 +23,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
 
   const login = (username: string, password: string): boolean => {
-    console.log("Login")
     const hardcodedUsers: User[] = [
-      { username: 'storemanager', role: 'Store Manager' },
-      { username: 'salesman', role: 'Salesman' }
+      { id: 1, username: 'storemanager', role: 'Store Manager' },
+      { id: 2, username: 'salesman', role: 'Salesman' }
     ];
   
     const hardcodedPasswords: { [key: string]: string } = {
@@ -46,7 +46,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     );
 
     if (customer) {
-      setUser({ username: customer.username, role: 'Customer' });
+      setUser({ id: customer.id, username: customer.username, role: 'Customer' });
       return true;
     }
   
@@ -58,10 +58,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     if (customers.some((c: { username: string }) => c.username === username)) {
       return false; // Username already exists
     }
-    customers.push({ username, password });
+    const newUser = { id: Date.now(), username, password };
+    customers.push(newUser);
     localStorage.setItem('users', JSON.stringify(customers));
-    console.log("singup users = ",JSON.parse(localStorage.getItem('users') || '[]'));
-    setUser({ username, role: 'Customer' });
+    setUser({ id: newUser.id, username, role: 'Customer' });
     return true;
   };
 
