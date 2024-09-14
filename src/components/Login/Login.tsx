@@ -1,4 +1,3 @@
-// src/components/Login/Login.tsx
 import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { TextField, Button, Typography, Box, Alert } from '@mui/material';
@@ -13,6 +12,7 @@ const Login: React.FC = () => {
     e.preventDefault();
     if (login(username, password)) {
       setError('');
+      //alert('Login successful!');
     } else {
       setError('Invalid username or password');
     }

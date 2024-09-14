@@ -3,7 +3,11 @@ import { TextField, Button, Typography, Select, MenuItem } from '@mui/material';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { useOrder } from './OrderContext';
 
-const OrderForm: React.FC = () => {
+interface OrderFormProps {
+  clearCart: () => void;
+}
+
+const OrderForm: React.FC<OrderFormProps> = ({ clearCart }) => {
   const [personalInfo, setPersonalInfo] = useState({
     name: '',
     address: '',
@@ -28,6 +32,8 @@ const OrderForm: React.FC = () => {
       deliveryDate: delivery.toDateString(),
       status: 'Processing',
     });
+
+    clearCart(); // Clear the cart after placing the order
 
     alert(`Order placed! Confirmation: ${confirmation}, Delivery Date: ${delivery.toDateString()}`);
     navigate('/order-status');

@@ -1,4 +1,3 @@
-// src/context/AuthContext.tsx
 import React, { createContext, useState, useContext, ReactNode } from 'react';
 
 type User = {
@@ -23,43 +22,45 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
 
   const login = (username: string, password: string): boolean => {
+    console.log("Login")
     const hardcodedUsers: User[] = [
       { username: 'storemanager', role: 'Store Manager' },
       { username: 'salesman', role: 'Salesman' }
     ];
-
+  
     const hardcodedPasswords: { [key: string]: string } = {
       storemanager: 'password123',
       salesman: 'password123'
     };
-
+  
     const foundUser = hardcodedUsers.find(u => u.username === username);
     
     if (foundUser && hardcodedPasswords[username] === password) {
       setUser(foundUser);
       return true;
     }
-
-    const customers = JSON.parse(localStorage.getItem('customers') || '[]');
+  
+    const customers = JSON.parse(localStorage.getItem('users') || '[]');
     const customer = customers.find((c: { username: string, password: string }) => 
       c.username === username && c.password === password
     );
-    
+
     if (customer) {
       setUser({ username: customer.username, role: 'Customer' });
       return true;
     }
-
+  
     return false;
   };
-
+  
   const signup = (username: string, password: string): boolean => {
-    const customers = JSON.parse(localStorage.getItem('customers') || '[]');
+    const customers = JSON.parse(localStorage.getItem('users') || '[]');
     if (customers.some((c: { username: string }) => c.username === username)) {
       return false; // Username already exists
     }
     customers.push({ username, password });
-    localStorage.setItem('customers', JSON.stringify(customers));
+    localStorage.setItem('users', JSON.stringify(customers));
+    console.log("singup users = ",JSON.parse(localStorage.getItem('users') || '[]'));
     setUser({ username, role: 'Customer' });
     return true;
   };

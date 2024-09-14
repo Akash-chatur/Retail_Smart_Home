@@ -1,18 +1,21 @@
-// src/components/Signup/Signup.tsx
 import React, { useState } from 'react';
-import { useAuth } from '../../context/AuthContext';
+import { useUser } from '../UserManagement/UserContext';
 import { TextField, Button, Typography, Box, Alert } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 const Signup: React.FC = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const { signup } = useAuth();
+  const { addUser } = useUser();
+  const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (signup(username, password)) {
+    if (addUser(username, password, 'Customer')) {
       setError('');
+      alert('User registered successfully!');
+      //navigate('/products'); // Navigate to products page
     } else {
       setError('Username already exists');
     }
