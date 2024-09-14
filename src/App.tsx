@@ -11,6 +11,8 @@ import CustomerView from './components/CustomerView/CustomerView';
 import ShoppingCart from './components/ShoppingCart/ShoppingCart';
 import { Product } from './types/Product';
 import OrderForm from './components/OrderPlacement/OrderForm';
+import { OrderProvider } from './components/OrderPlacement/OrderContext';
+import OrderStatus from './components/OrderPlacement/OrderStatus';
 
 const theme = createTheme({
   palette: {
@@ -74,6 +76,7 @@ const AuthenticatedApp: React.FC = () => {
                   <Route path="/products" element={<CustomerView addToCart={addToCart} />} />
                   <Route path="/cart" element={<ShoppingCart cart={cart} removeFromCart={removeFromCart} />} />
                   <Route path="/order" element={<OrderForm />} />
+                  <Route path="/order-status" element={<OrderStatus />} />
                 </>
               )}
               <Route path="*" element={<Navigate to={user?.role === 'Customer' ? "/products" : "/manage-products"} />} />
@@ -126,7 +129,9 @@ const App: React.FC = () => {
 
 const AppWithAuth: React.FC = () => (
   <AuthProvider>
-    <App />
+    <OrderProvider>
+      <App />
+    </OrderProvider>
   </AuthProvider>
 );
 
