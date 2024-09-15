@@ -1,5 +1,6 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useState, useContext, ReactNode } from 'react';
 import { useAuth } from '../../context/AuthContext';
+
 interface Order {
   id: number;
   userId: number;
@@ -11,6 +12,8 @@ interface Order {
 interface OrderContextType {
   orders: Order[];
   addOrder: (order: Order) => void;
+  updateOrder: (order: Order) => void;
+  deleteOrder: (id: number) => void;
   cancelOrder: (id: number) => void;
 }
 
@@ -33,14 +36,28 @@ export const OrderProvider: React.FC<OrderProviderProps> = ({ children }) => {
     localStorage.setItem('orders', JSON.stringify(updatedOrders));
   };
 
-  const cancelOrder = (id: number) => {
+  const updateOrder = (updatedOrder: Order) => {
+    const updatedOrders = orders.map(order => order.id === updatedOrder.id ? updatedOrder : order);
+    setOrders(updatedOrders);
+    localStorage.setItem('orders', JSON.stringify(updatedOrders));
+  };
+
+  const deleteOrder = (id: number) => {
     const updatedOrders = orders.filter(order => order.id !== id);
     setOrders(updatedOrders);
     localStorage.setItem('orders', JSON.stringify(updatedOrders));
   };
 
+  const cancelOrder = (id: number) => {
+    const updatedOrders = orders.map(order =>
+      order.id === id ? { ...order, status: 'Canceled' } : order
+    );
+    setOrders(updatedOrders);
+    localStorage.setItem('orders', JSON.stringify(updatedOrders));
+  };
+
   return (
-    <OrderContext.Provider value={{ orders, addOrder, cancelOrder }}>
+    <OrderContext.Provider value={{ orders, addOrder, updateOrder, deleteOrder, cancelOrder }}>
       {children}
     </OrderContext.Provider>
   );

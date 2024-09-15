@@ -1,35 +1,60 @@
 import React, { useState } from 'react';
-import { Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, Select, MenuItem } from '@mui/material';
+import { Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, MenuItem, Select } from '@mui/material';
 import { useUser } from './UserContext';
+import { useOrder } from '../OrderPlacement/OrderContext';
 
 const ManageUsers: React.FC = () => {
   const { users, addUser, updateUser, deleteUser } = useUser();
-  const [open, setOpen] = useState(false);
+  const { orders, addOrder, updateOrder, deleteOrder } = useOrder();
+  const [openUserDialog, setOpenUserDialog] = useState(false);
+  const [openOrderDialog, setOpenOrderDialog] = useState(false);
   const [currentUser, setCurrentUser] = useState({ id: 0, username: '', password: '', role: 'Customer' as 'Customer' | 'Store Manager' | 'Salesman' });
+  const [currentOrder, setCurrentOrder] = useState({ id: 0, userId: 0, confirmation: '', deliveryDate: '', status: 'Processing' });
 
-  const handleOpen = (user = { id: 0, username: '', password: '', role: 'Customer' as 'Customer' | 'Store Manager' | 'Salesman' }) => {
+  const handleOpenUserDialog = (user = { id: 0, username: '', password: '', role: 'Customer' as 'Customer' | 'Store Manager' | 'Salesman' }) => {
     setCurrentUser(user);
-    setOpen(true);
+    setOpenUserDialog(true);
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleOpenOrderDialog = (order = { id: 0, userId: 0, confirmation: '', deliveryDate: '', status: 'Processing' }) => {
+    setCurrentOrder(order);
+    setOpenOrderDialog(true);
+  };
+
+  const handleCloseUserDialog = () => {
+    setOpenUserDialog(false);
     setCurrentUser({ id: 0, username: '', password: '', role: 'Customer' });
   };
 
-  const handleSave = () => {
+  const handleCloseOrderDialog = () => {
+    setOpenOrderDialog(false);
+    setCurrentOrder({ id: 0, userId: 0, confirmation: '', deliveryDate: '', status: 'Processing' });
+  };
+
+  const handleSaveUser = () => {
     if (currentUser.id === 0) {
       addUser(currentUser.username, currentUser.password, currentUser.role);
     } else {
       updateUser(currentUser);
     }
-    handleClose();
+    handleCloseUserDialog();
   };
+
+  const handleSaveOrder = () => {
+    if (currentOrder.id === 0) {
+      addOrder({ ...currentOrder, id: Date.now() });
+    } else {
+      updateOrder(currentOrder);
+    }
+    handleCloseOrderDialog();
+  };
+
+  const userOrders = (userId: number) => orders.filter(order => order.userId === userId);
 
   return (
     <>
       <Typography variant="h4" gutterBottom>Manage Users</Typography>
-      <Button variant="contained" color="primary" onClick={() => handleOpen()} sx={{ mb: 2 }}>
+      <Button variant="contained" color="primary" onClick={() => handleOpenUserDialog()} sx={{ mb: 2 }}>
         Add New User
       </Button>
       <TableContainer component={Paper}>
@@ -47,8 +72,9 @@ const ManageUsers: React.FC = () => {
                 <TableCell>{user.username}</TableCell>
                 <TableCell>{user.role}</TableCell>
                 <TableCell>
-                  <Button onClick={() => handleOpen(user)}>Edit</Button>
+                  <Button onClick={() => handleOpenUserDialog(user)}>Edit</Button>
                   <Button onClick={() => deleteUser(user.id)}>Delete</Button>
+                  <Button onClick={() => handleOpenOrderDialog({ ...currentOrder, userId: user.id })}>Manage Orders</Button>
                 </TableCell>
               </TableRow>
             ))}
@@ -56,7 +82,38 @@ const ManageUsers: React.FC = () => {
         </Table>
       </TableContainer>
 
-      <Dialog open={open} onClose={handleClose}>
+      {users.map(user => (
+        <div key={user.id}>
+          <Typography variant="h6">{user.username}'s Orders</Typography>
+          <TableContainer component={Paper} sx={{ mb: 2 }}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Confirmation</TableCell>
+                  <TableCell>Delivery Date</TableCell>
+                  <TableCell>Status</TableCell>
+                  <TableCell>Actions</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {userOrders(user.id).map(order => (
+                  <TableRow key={order.id}>
+                    <TableCell>{order.confirmation}</TableCell>
+                    <TableCell>{order.deliveryDate}</TableCell>
+                    <TableCell>{order.status}</TableCell>
+                    <TableCell>
+                      <Button onClick={() => handleOpenOrderDialog(order)}>Edit</Button>
+                      <Button onClick={() => deleteOrder(order.id)}>Delete</Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </div>
+      ))}
+
+      <Dialog open={openUserDialog} onClose={handleCloseUserDialog}>
         <DialogTitle>{currentUser.id === 0 ? 'Add New User' : 'Edit User'}</DialogTitle>
         <DialogContent>
           <TextField
@@ -86,8 +143,42 @@ const ManageUsers: React.FC = () => {
           </Select>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleSave}>Save</Button>
+          <Button onClick={handleCloseUserDialog}>Cancel</Button>
+          <Button onClick={handleSaveUser}>Save</Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog open={openOrderDialog} onClose={handleCloseOrderDialog}>
+        <DialogTitle>{currentOrder.id === 0 ? 'Add Order' : 'Edit Order'}</DialogTitle>
+        <DialogContent>
+          <TextField
+            margin="dense"
+            label="Confirmation"
+            fullWidth
+            value={currentOrder.confirmation}
+            onChange={(e) => setCurrentOrder({ ...currentOrder, confirmation: e.target.value })}
+          />
+          <TextField
+            margin="dense"
+            label="Delivery Date"
+            fullWidth
+            value={currentOrder.deliveryDate}
+            onChange={(e) => setCurrentOrder({ ...currentOrder, deliveryDate: e.target.value })}
+          />
+          <Select
+            margin="dense"
+            fullWidth
+            value={currentOrder.status}
+            onChange={(e) => setCurrentOrder({ ...currentOrder, status: e.target.value })}
+          >
+            <MenuItem value="Processing">Processing</MenuItem>
+            <MenuItem value="Shipped">Shipped</MenuItem>
+            <MenuItem value="Delivered">Delivered</MenuItem>
+          </Select>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseOrderDialog}>Cancel</Button>
+          <Button onClick={handleSaveOrder}>Save</Button>
         </DialogActions>
       </Dialog>
     </>
