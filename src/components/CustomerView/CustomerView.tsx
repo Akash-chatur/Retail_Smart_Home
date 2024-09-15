@@ -1,9 +1,16 @@
 import React, { useState } from 'react';
-import { Grid, Card, CardContent, CardMedia, Typography, Button, Tabs, Tab, Dialog, DialogContent, IconButton, Box } from '@mui/material';
+import {
+  Grid, Card, CardContent, CardMedia, Typography, Button, Tabs, Tab, Dialog,
+  DialogContent, IconButton, Box, Chip, Divider, Rating, Stack, Slide
+} from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import { Carousel } from 'react-responsive-carousel';
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { Link as RouterLink } from 'react-router-dom';
 import { Product, Accessory, WarrantyOption } from '../../types/Product';
-import initialProducts from '../../data/products.json';
+import initialProducts from '../../data/products.json'; // Import JSON data
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface CustomerViewProps {
   addToCart: (item: Product | Accessory | WarrantyOption) => void;
@@ -48,19 +55,27 @@ const CustomerView: React.FC<CustomerViewProps> = ({ addToCart }) => {
     setSelectedProduct(null);
   };
 
+  const handleAddToCart = (item: Product | Accessory | WarrantyOption) => {
+    addToCart(item);
+    toast.success(`${item.name} added to cart!`);
+  };
+
+
   const filteredProducts = selectedType === "All" ? products : products.filter(product => product.type === selectedType);
 
   return (
     <>
+    <ToastContainer />
       <Button
         component={RouterLink}
         to="/order-status"
-        variant="outlined"
+        variant="contained"
         color="secondary"
-        sx={{ mb: 3 }}
+        sx={{ mb: 3, borderRadius: 2, paddingX: 4 }}
       >
         View Order Status
       </Button>
+
       <Tabs
         value={selectedType}
         onChange={handleTypeChange}
@@ -71,46 +86,72 @@ const CustomerView: React.FC<CustomerViewProps> = ({ addToCart }) => {
         sx={{ mb: 3 }}
       >
         {productTypes.map((type) => (
-          <Tab key={type} label={type} value={type} />
+          <Tab key={type} label={type} value={type} sx={{ textTransform: 'none' }} />
         ))}
       </Tabs>
-      <Grid container spacing={3}>
+
+      <Grid container spacing={4}>
         {filteredProducts.map((product) => (
           <Grid item xs={12} sm={6} md={4} key={product.id}>
-            <Card onClick={() => handleProductClick(product)}>
+            <Card
+              onClick={() => handleProductClick(product)}
+              sx={{
+                maxWidth: 345,
+                height: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+                borderRadius: 3,
+                boxShadow: 3,
+                transition: 'transform 0.3s ease',
+                '&:hover': {
+                  transform: 'scale(1.05)',
+                  boxShadow: 5,
+                }
+              }}
+            >
               <CardMedia
                 component="img"
-                height="140"
-                image={product.imageUrl || 'https://via.placeholder.com/140'}
+                height="180"
+                image={process.env.PUBLIC_URL + product.imageUrl}
                 alt={product.name}
+                sx={{ objectFit: 'cover', borderTopLeftRadius: 12, borderTopRightRadius: 12 }}
               />
               <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
+                <Typography gutterBottom variant="h6" component="div" sx={{ fontWeight: 'bold' }}>
                   {product.name}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
                   {product.description}
                 </Typography>
+
                 {product.specialDiscount ? (
                   <>
-                    <Typography variant="body2" color="text.secondary" sx={{ textDecoration: 'line-through' }}>
+                    <Typography variant="body2" color="text.secondary" sx={{ textDecoration: 'line-through', mt: 1 }}>
                       ${product.price.toFixed(2)}
                     </Typography>
-                    <Typography variant="h6" color="primary">
-                      ${(product.price - product.specialDiscount).toFixed(2)} ({((product.specialDiscount / product.price) * 100).toFixed(0)}% off)
+                    <Typography variant="h6" color="primary" sx={{ fontWeight: 'bold' }}>
+                      ${(product.price - product.specialDiscount).toFixed(2)}
+                      <Chip label={`${((product.specialDiscount / product.price) * 100).toFixed(0)}% off`} size="small" sx={{ ml: 1 }} />
                     </Typography>
                   </>
                 ) : (
-                  <Typography variant="h6" color="text.primary" sx={{ mt: 2 }}>
+                  <Typography variant="h6" color="text.primary" sx={{ mt: 2, fontWeight: 'bold' }}>
                     ${product.price.toFixed(2)}
                   </Typography>
                 )}
+
                 {product.manufacturerRebate && (
-                  <Typography variant="body2" color="secondary">
+                  <Typography variant="body2" color="secondary" sx={{ mt: 1 }}>
                     {((product.manufacturerRebate / product.price) * 100).toFixed(0)}% cashback
                   </Typography>
                 )}
-                <Button variant="contained" color="primary" onClick={() => addToCart(product)} sx={{ mt: 2 }}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => handleAddToCart(product)}
+                  sx={{ mt: 2, borderRadius: 2 }}
+                  fullWidth
+                >
                   Add to Cart
                 </Button>
               </CardContent>
@@ -119,8 +160,8 @@ const CustomerView: React.FC<CustomerViewProps> = ({ addToCart }) => {
         ))}
       </Grid>
 
-      <Dialog open={open} onClose={handleClose} fullWidth maxWidth="md">
-        <DialogContent>
+      <Dialog open={open} onClose={handleClose} fullWidth maxWidth="md" TransitionComponent={Slide} >
+        <DialogContent sx={{ position: 'relative' }}>
           <IconButton
             aria-label="close"
             onClick={handleClose}
@@ -133,68 +174,99 @@ const CustomerView: React.FC<CustomerViewProps> = ({ addToCart }) => {
           >
             <CloseIcon />
           </IconButton>
+
           {selectedProduct && (
             <>
-              <Typography variant="h4" gutterBottom>{selectedProduct.name}</Typography>
-              <CardMedia
-                component="img"
-                height="300"
-                image={selectedProduct.imageUrl || 'https://via.placeholder.com/300'}
-                alt={selectedProduct.name}
-              />
-              <Typography variant="body1" sx={{ mt: 2 }}>{selectedProduct.description}</Typography>
-              {selectedProduct.specialDiscount ? (
-                <>
-                  <Typography variant="body2" color="text.secondary" sx={{ textDecoration: 'line-through' }}>
-                    ${selectedProduct.price.toFixed(2)}
-                  </Typography>
-                  <Typography variant="h6" color="primary">
-                    ${(selectedProduct.price - selectedProduct.specialDiscount).toFixed(2)} ({((selectedProduct.specialDiscount / selectedProduct.price) * 100).toFixed(0)}% off)
-                  </Typography>
-                </>
-              ) : (
-                <Typography variant="h6" color="text.primary" sx={{ mt: 2 }}>
-                  ${selectedProduct.price.toFixed(2)}
-                </Typography>
-              )}
+              {/* Carousel for Product Images */}
+              <Carousel
+                showArrows
+                showThumbs={false}
+                infiniteLoop
+                autoPlay
+                interval={3000}
+                transitionTime={500}
+              //sx={{ borderRadius: 3, mb: 4 }}
+              >
+                {Array.isArray(selectedProduct.imageUrl) ? (
+                  selectedProduct.imageUrl.map((imgUrl: string, index: number) => (
+                    <CardMedia
+                      key={index}
+                      component="img"
+                      height="350"
+                      image={process.env.PUBLIC_URL + imgUrl}
+                      alt={selectedProduct.name}
+                      sx={{ objectFit: 'cover', borderRadius: 2 }}
+                    />
+                  ))
+                ) : (
+                  [ // Wrap the single element in an array
+                    <CardMedia
+                      key={selectedProduct.id} // Assuming each product has a unique id
+                      component="img"
+                      height="350"
+                      image={process.env.PUBLIC_URL + selectedProduct.imageUrl}
+                      alt={selectedProduct.name}
+                      sx={{ objectFit: 'cover', borderRadius: 2 }}
+                    />
+                  ]
+                )}
+              </Carousel>
+
+              <Typography variant="h4" gutterBottom sx={{ fontWeight: 'bold', textAlign: 'center', mt: 2 }}>
+                {selectedProduct.name}
+              </Typography>
+
+              <Typography variant="body1" sx={{ fontSize: '1.1rem', mb: 3, textAlign: 'justify' }}>
+                {selectedProduct.description}
+              </Typography>
+
+              <Divider sx={{ mb: 3 }} />
+
+              <Typography variant="h5" color="primary" sx={{ fontWeight: 'bold', mb: 2 }}>
+                Price: ${selectedProduct.price.toFixed(2)}
+              </Typography>
+
               {selectedProduct.manufacturerRebate && (
                 <Typography variant="body2" color="secondary">
                   {((selectedProduct.manufacturerRebate / selectedProduct.price) * 100).toFixed(0)}% cashback
                 </Typography>
               )}
-              <Button variant="contained" color="primary" onClick={() => addToCart(selectedProduct)} sx={{ mt: 2 }}>
+
+              <Button variant="contained" color="primary" onClick={() => handleAddToCart(selectedProduct)} sx={{ mt: 3, borderRadius: 3 }} fullWidth>
                 Add to Cart
               </Button>
-              <Typography variant="h6" sx={{ mt: 4 }}>Accessories</Typography>
-              <Box sx={{ display: 'flex', overflowX: 'auto', mt: 2 }}>
+
+              <Divider sx={{ mt: 4, mb: 2 }} />
+
+              {/* Accessories Section */}
+              <Typography variant="h6" sx={{ mb: 2 }}>Accessories</Typography>
+              <Box sx={{ display: 'flex', overflowX: 'auto', gap: 2 }}>
                 {selectedProduct.accessories.map(accessory => (
-                  <Box key={accessory.id} sx={{ minWidth: 150, mr: 2 }}>
-                    <Card>
-                      <CardContent>
-                        <Typography>{accessory.name}</Typography>
-                        <Typography>${accessory.price.toFixed(2)}</Typography>
-                        <Button variant="outlined" color="primary" onClick={() => addToCart(accessory)}>
-                          Add to Cart
-                        </Button>
-                      </CardContent>
-                    </Card>
-                  </Box>
+                  <Card key={accessory.id} sx={{ minWidth: 150 }}>
+                    <CardContent>
+                      <Typography variant="body1">{accessory.name}</Typography>
+                      <Typography>${accessory.price.toFixed(2)}</Typography>
+                      <Button variant="outlined" color="primary" onClick={() => handleAddToCart(accessory)} sx={{ mt: 1 }}>
+                        Add to Cart
+                      </Button>
+                    </CardContent>
+                  </Card>
                 ))}
               </Box>
+
+              {/* Warranty Section */}
               <Typography variant="h6" sx={{ mt: 4 }}>Warranty Options</Typography>
-              <Box sx={{ display: 'flex', overflowX: 'auto', mt: 2 }}>
-                {selectedProduct.warrantyOptions?.map((warranty, index) => (
-                  <Box key={index} sx={{ minWidth: 150, mr: 2 }}>
-                    <Card>
-                      <CardContent>
-                        <Typography>{warranty.duration} Warranty</Typography>
-                        <Typography>${warranty.price.toFixed(2)}</Typography>
-                        <Button variant="outlined" color="primary" onClick={() => addToCart(warranty)}>
-                          Add to Cart
-                        </Button>
-                      </CardContent>
-                    </Card>
-                  </Box>
+              <Box sx={{ display: 'flex', overflowX: 'auto', gap: 2 }}>
+                {selectedProduct.warrantyOptions?.map(warranty => (
+                  <Card key={warranty.id} sx={{ minWidth: 150 }}>
+                    <CardContent>
+                      <Typography variant="body1">{warranty.duration} Warranty</Typography>
+                      <Typography>${warranty.price.toFixed(2)}</Typography>
+                      <Button variant="outlined" color="primary" onClick={() => handleAddToCart(warranty)} sx={{ mt: 1 }}>
+                        Add to Cart
+                      </Button>
+                    </CardContent>
+                  </Card>
                 ))}
               </Box>
             </>

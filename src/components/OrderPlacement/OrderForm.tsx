@@ -54,14 +54,13 @@ const OrderForm: React.FC<OrderFormProps> = ({ clearCart, cart }) => {
 
       if (rebateItems.length > 0) {
         setRebateProducts(rebateItems);
-        setOpenRebateDialog(true);  // Open the rebate dialog if rebate items exist
+        setOpenRebateDialog(true);
       } else {
-        // No rebate items, show the confirmation dialog
         setConfirmationMessage(`Order placed! Confirmation: ${confirmation}, Delivery Date: ${delivery.toDateString()}`);
-        setOpenRebateDialog(true);  // Open the dialog for confirmation
+        setOpenRebateDialog(true);
       }
 
-      clearCart(); // Clear the cart after placing the order
+      clearCart();
     }
   };
 
@@ -73,8 +72,12 @@ const OrderForm: React.FC<OrderFormProps> = ({ clearCart, cart }) => {
   const storeLocations = [
     { id: 1, name: 'Store 1', zip: '12345' },
     { id: 2, name: 'Store 2', zip: '23456' },
-    // Add more store locations
   ];
+
+  const handleCloseDialog = () => {
+    setOpenRebateDialog(false);
+    navigate('/order-status');
+  };
 
   return (
     <form onSubmit={handleSubmit}>
@@ -104,8 +107,7 @@ const OrderForm: React.FC<OrderFormProps> = ({ clearCart, cart }) => {
         Back to Products
       </Button>
 
-      {/* Dialog for Rebate Products or Confirmation */}
-      <Dialog open={openRebateDialog} onClose={() => setOpenRebateDialog(false)}>
+      <Dialog open={openRebateDialog} onClose={handleCloseDialog}>
         <DialogContent>
           {rebateProducts.length > 0 ? (
             <>
@@ -135,15 +137,9 @@ const OrderForm: React.FC<OrderFormProps> = ({ clearCart, cart }) => {
           )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => {
-            setOpenRebateDialog(false);
-            if (!rebateProducts.length) {
-              navigate('/order-status');
-            }
-          }} color="primary">Close</Button>
+          <Button onClick={handleCloseDialog} color="primary">Close</Button>
         </DialogActions>
       </Dialog>
-
     </form>
   );
 };

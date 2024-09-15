@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "typeRoots": ["node_modules/@types"],
+    "types": ["react", "react-dom", "react-responsive-carousel"],
     "target": "es5",
     "lib": [
       "dom",
