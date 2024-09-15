@@ -14,7 +14,7 @@ import OrderForm from './components/OrderPlacement/OrderForm';
 import OrderStatus from './components/OrderPlacement/OrderStatus';
 import ManageUsers from './components/UserManagement/ManageUsers';
 import { Accessory, Product, WarrantyOption } from './types/Product';
-import { initialProducts } from './data/products';
+import initialProducts from './data/products.json';
 
 const theme = createTheme({
   palette: {

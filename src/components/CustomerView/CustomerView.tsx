@@ -3,7 +3,7 @@ import { Grid, Card, CardContent, CardMedia, Typography, Button, Tabs, Tab, Dial
 import CloseIcon from '@mui/icons-material/Close';
 import { Link as RouterLink } from 'react-router-dom';
 import { Product, Accessory, WarrantyOption } from '../../types/Product';
-import { initialProducts } from '../../data/products';
+import initialProducts from '../../data/products.json';
 
 interface CustomerViewProps {
   addToCart: (item: Product | Accessory | WarrantyOption) => void;

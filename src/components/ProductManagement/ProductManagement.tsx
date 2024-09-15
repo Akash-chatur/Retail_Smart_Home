@@ -26,7 +26,7 @@ import {
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import { Product, Accessory, WarrantyOption } from '../../types/Product';
-import { initialProducts } from '../../data/products';
+import initialProducts from '../../data/products.json';
 const productTypes = [
   "Smart Doorbells",
   "Smart Doorlocks",
@@ -36,7 +36,7 @@ const productTypes = [
 ];
 
 const ProductManagement: React.FC = () => {
-  
+
   const [products, setProducts] = useState<Product[]>(() => {
     const storedProducts = localStorage.getItem('products');
     if (storedProducts) {
