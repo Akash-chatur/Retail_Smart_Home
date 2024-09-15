@@ -10,6 +10,7 @@ const ManageUsers: React.FC = () => {
   const [openOrderDialog, setOpenOrderDialog] = useState(false);
   const [currentUser, setCurrentUser] = useState({ id: 0, username: '', password: '', role: 'Customer' as 'Customer' | 'Store Manager' | 'Salesman' });
   const [currentOrder, setCurrentOrder] = useState({ id: 0, userId: 0, confirmation: '', deliveryDate: '', status: 'Processing' });
+  const [selectedUserId, setSelectedUserId] = useState<number | null>(null); // Track selected user for orders
 
   const handleOpenUserDialog = (user = { id: 0, username: '', password: '', role: 'Customer' as 'Customer' | 'Store Manager' | 'Salesman' }) => {
     setCurrentUser(user);
@@ -74,7 +75,7 @@ const ManageUsers: React.FC = () => {
                 <TableCell>
                   <Button onClick={() => handleOpenUserDialog(user)}>Edit</Button>
                   <Button onClick={() => deleteUser(user.id)}>Delete</Button>
-                  <Button onClick={() => handleOpenOrderDialog({ ...currentOrder, userId: user.id })}>Manage Orders</Button>
+                  <Button onClick={() => setSelectedUserId(user.id)}>Manage Orders</Button>
                 </TableCell>
               </TableRow>
             ))}
@@ -82,9 +83,9 @@ const ManageUsers: React.FC = () => {
         </Table>
       </TableContainer>
 
-      {users.map(user => (
-        <div key={user.id}>
-          <Typography variant="h6">{user.username}'s Orders</Typography>
+      {selectedUserId !== null && (
+        <div>
+          <Typography variant="h6">{users.find(user => user.id === selectedUserId)?.username}'s Orders</Typography>
           <TableContainer component={Paper} sx={{ mb: 2 }}>
             <Table>
               <TableHead>
@@ -96,7 +97,7 @@ const ManageUsers: React.FC = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {userOrders(user.id).map(order => (
+                {userOrders(selectedUserId).map(order => (
                   <TableRow key={order.id}>
                     <TableCell>{order.confirmation}</TableCell>
                     <TableCell>{order.deliveryDate}</TableCell>
@@ -111,7 +112,7 @@ const ManageUsers: React.FC = () => {
             </Table>
           </TableContainer>
         </div>
-      ))}
+      )}
 
       <Dialog open={openUserDialog} onClose={handleCloseUserDialog}>
         <DialogTitle>{currentUser.id === 0 ? 'Add New User' : 'Edit User'}</DialogTitle>

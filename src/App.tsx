@@ -14,6 +14,7 @@ import OrderForm from './components/OrderPlacement/OrderForm';
 import OrderStatus from './components/OrderPlacement/OrderStatus';
 import ManageUsers from './components/UserManagement/ManageUsers';
 import { Accessory, Product, WarrantyOption } from './types/Product';
+import { initialProducts } from './data/products';
 
 const theme = createTheme({
   palette: {
@@ -47,6 +48,19 @@ const AuthenticatedApp: React.FC = () => {
     localStorage.setItem('cart', JSON.stringify(cart));
   }, [cart]);
 
+  let storedProducts: Product[] = [];
+
+React.useEffect(() => {
+  const productsFromStorage = localStorage.getItem('products');
+  if (productsFromStorage) {
+    storedProducts = JSON.parse(productsFromStorage) as Product[];
+  } else {
+    localStorage.setItem('products', JSON.stringify(initialProducts));
+    storedProducts = initialProducts;
+  }
+}, []);
+
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -79,7 +93,7 @@ const AuthenticatedApp: React.FC = () => {
               <>
                 <Route path="/products" element={<CustomerView addToCart={addToCart} />} />
                 <Route path="/cart" element={<ShoppingCart cart={cart} removeFromCart={removeFromCart} />} />
-                <Route path="/order" element={<OrderForm clearCart={clearCart} />} />
+                <Route path="/order" element={<OrderForm clearCart={clearCart} cart={cart} />} />
                 <Route path="/order-status" element={<OrderStatus />} />
               </>
             )}

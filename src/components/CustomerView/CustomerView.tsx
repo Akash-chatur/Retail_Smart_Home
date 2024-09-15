@@ -19,7 +19,16 @@ const productTypes = [
 ];
 
 const CustomerView: React.FC<CustomerViewProps> = ({ addToCart }) => {
-  const [products] = useState<Product[]>(initialProducts);
+  const [products, setProducts] = useState<Product[]>(() => {
+    const storedProducts = localStorage.getItem('products');
+    if (storedProducts) {
+      return JSON.parse(storedProducts);
+    } else {
+      localStorage.setItem('products', JSON.stringify(initialProducts));
+      return initialProducts;
+    }
+  });
+
   const [selectedType, setSelectedType] = useState<string>("All");
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [open, setOpen] = useState(false);
@@ -82,9 +91,25 @@ const CustomerView: React.FC<CustomerViewProps> = ({ addToCart }) => {
                 <Typography variant="body2" color="text.secondary">
                   {product.description}
                 </Typography>
-                <Typography variant="h6" color="text.primary" sx={{ mt: 2 }}>
-                  ${product.price.toFixed(2)}
-                </Typography>
+                {product.specialDiscount ? (
+                  <>
+                    <Typography variant="body2" color="text.secondary" sx={{ textDecoration: 'line-through' }}>
+                      ${product.price.toFixed(2)}
+                    </Typography>
+                    <Typography variant="h6" color="primary">
+                      ${(product.price - product.specialDiscount).toFixed(2)} ({((product.specialDiscount / product.price) * 100).toFixed(0)}% off)
+                    </Typography>
+                  </>
+                ) : (
+                  <Typography variant="h6" color="text.primary" sx={{ mt: 2 }}>
+                    ${product.price.toFixed(2)}
+                  </Typography>
+                )}
+                {product.manufacturerRebate && (
+                  <Typography variant="body2" color="secondary">
+                    {((product.manufacturerRebate / product.price) * 100).toFixed(0)}% cashback
+                  </Typography>
+                )}
                 <Button variant="contained" color="primary" onClick={() => addToCart(product)} sx={{ mt: 2 }}>
                   Add to Cart
                 </Button>
@@ -118,9 +143,25 @@ const CustomerView: React.FC<CustomerViewProps> = ({ addToCart }) => {
                 alt={selectedProduct.name}
               />
               <Typography variant="body1" sx={{ mt: 2 }}>{selectedProduct.description}</Typography>
-              <Typography variant="h6" color="text.primary" sx={{ mt: 2 }}>
-                ${selectedProduct.price.toFixed(2)}
-              </Typography>
+              {selectedProduct.specialDiscount ? (
+                <>
+                  <Typography variant="body2" color="text.secondary" sx={{ textDecoration: 'line-through' }}>
+                    ${selectedProduct.price.toFixed(2)}
+                  </Typography>
+                  <Typography variant="h6" color="primary">
+                    ${(selectedProduct.price - selectedProduct.specialDiscount).toFixed(2)} ({((selectedProduct.specialDiscount / selectedProduct.price) * 100).toFixed(0)}% off)
+                  </Typography>
+                </>
+              ) : (
+                <Typography variant="h6" color="text.primary" sx={{ mt: 2 }}>
+                  ${selectedProduct.price.toFixed(2)}
+                </Typography>
+              )}
+              {selectedProduct.manufacturerRebate && (
+                <Typography variant="body2" color="secondary">
+                  {((selectedProduct.manufacturerRebate / selectedProduct.price) * 100).toFixed(0)}% cashback
+                </Typography>
+              )}
               <Button variant="contained" color="primary" onClick={() => addToCart(selectedProduct)} sx={{ mt: 2 }}>
                 Add to Cart
               </Button>

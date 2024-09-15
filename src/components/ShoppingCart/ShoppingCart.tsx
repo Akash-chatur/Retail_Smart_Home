@@ -11,7 +11,13 @@ interface ShoppingCartProps {
 }
 
 const ShoppingCart: React.FC<ShoppingCartProps> = ({ cart, removeFromCart }) => {
-  const total = cart.reduce((sum, item) => sum + item.price, 0);
+  // Calculate total with discounts applied
+  const total = cart.reduce((sum, item) => {
+    if ('specialDiscount' in item && item.specialDiscount) {
+      return sum + (item.price - item.specialDiscount);
+    }
+    return sum + item.price;
+  }, 0);
 
   return (
     <>
@@ -21,7 +27,17 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({ cart, removeFromCart }) => 
           <ListItem key={item.id}>
             <ListItemText
               primary={item.name}
-              secondary={`$${item.price.toFixed(2)}`}
+              secondary={
+                'specialDiscount' in item && item.specialDiscount ? (
+                  <>
+                    <Typography variant="body2" color="primary">
+                      ${(item.price - item.specialDiscount).toFixed(2)}
+                    </Typography>
+                  </>
+                ) : (
+                  `$${item.price.toFixed(2)}`
+                )
+              }
             />
             <Button onClick={() => removeFromCart(item.id)}>Remove</Button>
           </ListItem>
