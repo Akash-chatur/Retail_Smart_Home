@@ -7,6 +7,8 @@ export interface Accessory {
   }
   
   export interface WarrantyOption {
+    id: number;
+    name: string;
     duration: string;
     price: number;
   }

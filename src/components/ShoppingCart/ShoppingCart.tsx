@@ -1,9 +1,9 @@
 import React from 'react';
 import { Typography, List, ListItem, ListItemText, Button } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
-import { Accessory, Product } from '../../types/Product';
+import { Accessory, Product, WarrantyOption } from '../../types/Product';
 
-type CartItem = Product | Accessory;
+type CartItem = Product | Accessory | WarrantyOption;
 
 interface ShoppingCartProps {
   cart: CartItem[];

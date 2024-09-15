@@ -13,7 +13,7 @@ import ShoppingCart from './components/ShoppingCart/ShoppingCart';
 import OrderForm from './components/OrderPlacement/OrderForm';
 import OrderStatus from './components/OrderPlacement/OrderStatus';
 import ManageUsers from './components/UserManagement/ManageUsers';
-import { Accessory, Product } from './types/Product';
+import { Accessory, Product, WarrantyOption } from './types/Product';
 
 const theme = createTheme({
   palette: {
@@ -26,7 +26,7 @@ const theme = createTheme({
   },
 });
 
-type CartItem = Product | Accessory;
+type CartItem = Product | Accessory | WarrantyOption;
 
 const AuthenticatedApp: React.FC = () => {
   const { user, logout } = useAuth();

@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { Grid, Card, CardContent, CardMedia, Typography, Button, Tabs, Tab, Dialog, DialogContent, IconButton, Box } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { Link as RouterLink } from 'react-router-dom';
-import { Product, Accessory } from '../../types/Product';
+import { Product, Accessory, WarrantyOption } from '../../types/Product';
 import { initialProducts } from '../../data/products';
 
 interface CustomerViewProps {
-  addToCart: (item: Product | Accessory) => void;
+  addToCart: (item: Product | Accessory | WarrantyOption) => void;
 }
 
 const productTypes = [
@@ -133,6 +133,22 @@ const CustomerView: React.FC<CustomerViewProps> = ({ addToCart }) => {
                         <Typography>{accessory.name}</Typography>
                         <Typography>${accessory.price.toFixed(2)}</Typography>
                         <Button variant="outlined" color="primary" onClick={() => addToCart(accessory)}>
+                          Add to Cart
+                        </Button>
+                      </CardContent>
+                    </Card>
+                  </Box>
+                ))}
+              </Box>
+              <Typography variant="h6" sx={{ mt: 4 }}>Warranty Options</Typography>
+              <Box sx={{ display: 'flex', overflowX: 'auto', mt: 2 }}>
+                {selectedProduct.warrantyOptions?.map((warranty, index) => (
+                  <Box key={index} sx={{ minWidth: 150, mr: 2 }}>
+                    <Card>
+                      <CardContent>
+                        <Typography>{warranty.duration} Warranty</Typography>
+                        <Typography>${warranty.price.toFixed(2)}</Typography>
+                        <Button variant="outlined" color="primary" onClick={() => addToCart(warranty)}>
                           Add to Cart
                         </Button>
                       </CardContent>
