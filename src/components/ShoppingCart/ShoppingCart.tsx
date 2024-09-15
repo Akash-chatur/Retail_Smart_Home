@@ -1,27 +1,29 @@
 import React from 'react';
 import { Typography, List, ListItem, ListItemText, Button } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
-import { Product } from '../../types/Product';
+import { Accessory, Product } from '../../types/Product';
+
+type CartItem = Product | Accessory;
 
 interface ShoppingCartProps {
-  cart: Product[];
-  removeFromCart: (productId: number) => void;
+  cart: CartItem[];
+  removeFromCart: (itemId: number) => void;
 }
 
 const ShoppingCart: React.FC<ShoppingCartProps> = ({ cart, removeFromCart }) => {
-  const total = cart.reduce((sum, product) => sum + product.price, 0);
+  const total = cart.reduce((sum, item) => sum + item.price, 0);
 
   return (
     <>
       <Typography variant="h4" gutterBottom>Shopping Cart</Typography>
       <List>
-        {cart.map((product) => (
-          <ListItem key={product.id}>
+        {cart.map((item) => (
+          <ListItem key={item.id}>
             <ListItemText
-              primary={product.name}
-              secondary={`$${product.price.toFixed(2)}`}
+              primary={item.name}
+              secondary={`$${item.price.toFixed(2)}`}
             />
-            <Button onClick={() => removeFromCart(product.id)}>Remove</Button>
+            <Button onClick={() => removeFromCart(item.id)}>Remove</Button>
           </ListItem>
         ))}
       </List>

@@ -13,7 +13,7 @@ import ShoppingCart from './components/ShoppingCart/ShoppingCart';
 import OrderForm from './components/OrderPlacement/OrderForm';
 import OrderStatus from './components/OrderPlacement/OrderStatus';
 import ManageUsers from './components/UserManagement/ManageUsers';
-import { Product } from './types/Product';
+import { Accessory, Product } from './types/Product';
 
 const theme = createTheme({
   palette: {
@@ -26,16 +26,22 @@ const theme = createTheme({
   },
 });
 
+type CartItem = Product | Accessory;
+
 const AuthenticatedApp: React.FC = () => {
   const { user, logout } = useAuth();
-  const [cart, setCart] = React.useState<Product[]>(() => {
+  const [cart, setCart] = React.useState<CartItem[]>(() => {
     const savedCart = localStorage.getItem('cart');
     return savedCart ? JSON.parse(savedCart) : [];
   });
 
   const clearCart = () => setCart([]);
-  const addToCart = (product: Product) => setCart([...cart, product]);
-  const removeFromCart = (productId: number) => setCart(cart.filter(item => item.id !== productId));
+  const addToCart = (item: CartItem) => {
+    setCart([...cart, item]);
+  };
+  const removeFromCart = (itemId: number) => {
+    setCart(cart.filter(item => item.id !== itemId));
+  };
 
   React.useEffect(() => {
     localStorage.setItem('cart', JSON.stringify(cart));
