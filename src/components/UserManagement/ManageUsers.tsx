@@ -1,21 +1,38 @@
 import React, { useState } from 'react';
-import { Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, MenuItem, Select } from '@mui/material';
+import {
+  Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper,
+  Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle,
+  MenuItem, Select, IconButton, Snackbar, Alert, Box, Pagination
+} from '@mui/material';
 import { useUser } from './UserContext';
 import { useOrder } from '../OrderPlacement/OrderContext';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import AddIcon from '@mui/icons-material/Add';
 
 const ManageUsers: React.FC = () => {
   const { users, addUser, updateUser, deleteUser } = useUser();
   const { orders, addOrder, updateOrder, deleteOrder } = useOrder();
+  
   const [openUserDialog, setOpenUserDialog] = useState(false);
   const [openOrderDialog, setOpenOrderDialog] = useState(false);
-  const [currentUser, setCurrentUser] = useState({ id: 0, username: '', password: '', role: 'Customer' as 'Customer' | 'Store Manager' | 'Salesman' });
-  const [currentOrder, setCurrentOrder] = useState({ id: 0, userId: 0, confirmation: '', deliveryDate: '', status: 'Processing' });
-  const [selectedUserId, setSelectedUserId] = useState<number | null>(null); // Track selected user for orders
-
+  const [currentUser, setCurrentUser] = useState({
+    id: 0, username: '', password: '', role: 'Customer' as 'Customer' | 'Store Manager' | 'Salesman'
+  });
+  const [currentOrder, setCurrentOrder] = useState({
+    id: 0, userId: 0, confirmation: '', deliveryDate: '', status: 'Processing'
+  });
+  const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [page, setPage] = useState(1);
+  const rowsPerPage = 5;
+  
   const handleOpenUserDialog = (user = { id: 0, username: '', password: '', role: 'Customer' as 'Customer' | 'Store Manager' | 'Salesman' }) => {
     setCurrentUser(user);
     setOpenUserDialog(true);
   };
+  
 
   const handleOpenOrderDialog = (order = { id: 0, userId: 0, confirmation: '', deliveryDate: '', status: 'Processing' }) => {
     setCurrentOrder(order);
@@ -39,6 +56,8 @@ const ManageUsers: React.FC = () => {
       updateUser(currentUser);
     }
     handleCloseUserDialog();
+    setSnackbarMessage('User saved successfully!');
+    setOpenSnackbar(true);
   };
 
   const handleSaveOrder = () => {
@@ -48,14 +67,34 @@ const ManageUsers: React.FC = () => {
       updateOrder(currentOrder);
     }
     handleCloseOrderDialog();
+    setSnackbarMessage('Order saved successfully!');
+    setOpenSnackbar(true);
+  };
+
+  const handleDeleteUser = (id: number) => {
+    deleteUser(id);
+    setSnackbarMessage('User deleted successfully!');
+    setOpenSnackbar(true);
+  };
+
+  const handleDeleteOrder = (id: number) => {
+    deleteOrder(id);
+    setSnackbarMessage('Order deleted successfully!');
+    setOpenSnackbar(true);
   };
 
   const userOrders = (userId: number) => orders.filter(order => order.userId === userId);
 
+  const handleChangePage = (event: unknown, newPage: number) => {
+    setPage(newPage);
+  };
+
+  const paginatedUsers = users.slice((page - 1) * rowsPerPage, page * rowsPerPage);
+
   return (
     <>
       <Typography variant="h4" gutterBottom>Manage Users</Typography>
-      <Button variant="contained" color="primary" onClick={() => handleOpenUserDialog()} sx={{ mb: 2 }}>
+      <Button variant="contained" startIcon={<AddIcon />} color="primary" onClick={() => handleOpenUserDialog()} sx={{ mb: 2 }}>
         Add New User
       </Button>
       <TableContainer component={Paper}>
@@ -68,24 +107,29 @@ const ManageUsers: React.FC = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {users.map(user => (
+            {paginatedUsers.map(user => (
               <TableRow key={user.id}>
                 <TableCell>{user.username}</TableCell>
                 <TableCell>{user.role}</TableCell>
                 <TableCell>
-                  <Button onClick={() => handleOpenUserDialog(user)}>Edit</Button>
-                  <Button onClick={() => deleteUser(user.id)}>Delete</Button>
+                  <IconButton onClick={() => handleOpenUserDialog(user)}><EditIcon /></IconButton>
+                  <IconButton onClick={() => handleDeleteUser(user.id)}><DeleteIcon /></IconButton>
                   <Button onClick={() => setSelectedUserId(user.id)}>Manage Orders</Button>
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
+        <Box sx={{ p: 2 }}>
+          <Pagination count={Math.ceil(users.length / rowsPerPage)} page={page} onChange={handleChangePage} />
+        </Box>
       </TableContainer>
 
       {selectedUserId !== null && (
-        <div>
-          <Typography variant="h6">{users.find(user => user.id === selectedUserId)?.username}'s Orders</Typography>
+        <>
+          <Typography variant="h6">
+            {users.find(user => user.id === selectedUserId)?.username}'s Orders
+          </Typography>
           <TableContainer component={Paper} sx={{ mb: 2 }}>
             <Table>
               <TableHead>
@@ -104,16 +148,17 @@ const ManageUsers: React.FC = () => {
                     <TableCell>{order.status}</TableCell>
                     <TableCell>
                       <Button onClick={() => handleOpenOrderDialog(order)}>Edit</Button>
-                      <Button onClick={() => deleteOrder(order.id)}>Delete</Button>
+                      <Button onClick={() => handleDeleteOrder(order.id)}>Delete</Button>
                     </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
             </Table>
           </TableContainer>
-        </div>
+        </>
       )}
 
+      {/* User Dialog */}
       <Dialog open={openUserDialog} onClose={handleCloseUserDialog}>
         <DialogTitle>{currentUser.id === 0 ? 'Add New User' : 'Edit User'}</DialogTitle>
         <DialogContent>
@@ -149,6 +194,7 @@ const ManageUsers: React.FC = () => {
         </DialogActions>
       </Dialog>
 
+      {/* Order Dialog */}
       <Dialog open={openOrderDialog} onClose={handleCloseOrderDialog}>
         <DialogTitle>{currentOrder.id === 0 ? 'Add Order' : 'Edit Order'}</DialogTitle>
         <DialogContent>
@@ -182,6 +228,13 @@ const ManageUsers: React.FC = () => {
           <Button onClick={handleSaveOrder}>Save</Button>
         </DialogActions>
       </Dialog>
+
+      {/* Snackbar for notifications */}
+      <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={() => setOpenSnackbar(false)}>
+        <Alert onClose={() => setOpenSnackbar(false)} severity="success" sx={{ width: '100%' }}>
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </>
   );
 };

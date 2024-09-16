@@ -95,9 +95,6 @@ React.useEffect(() => {
           <Typography variant="h4" component="h1" gutterBottom>
             Welcome to SmartHomes, {user?.username}!
           </Typography>
-          <Typography variant="h6" gutterBottom>
-            Role: {user?.role}
-          </Typography>
           <Routes>
             {user?.role === 'Store Manager' && (
               <Route path="/manage-products" element={<ProductManagement />} />

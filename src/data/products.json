@@ -14,11 +14,11 @@
         { "id": 3002, "name": "2Year_Warranty", "duration": "2 Years", "price": 29.99 }
       ],
       "specialDiscount": 10,
-      "imageUrl": "/assets/images/ring.jpg"
+      "imageUrl": "/assets/images/ring_doorbell.jpg"
     },
     {
       "id": 1002,
-      "name": "August Smart Lock",
+      "name": "Smart Home Lock",
       "type": "Smart Doorlocks",
       "price": 149.99,
       "description": "Keyless entry smart lock with remote access",
@@ -30,7 +30,7 @@
         { "id": 3004, "name": "2Year_Warranty", "duration": "2 Years", "price": 39.99 }
       ],
       "manufacturerRebate": 15,
-      "imageUrl": "/assets/images/wallmount2.jpg"
+      "imageUrl": "/assets/images/home_lock.jpg"
     },
     {
       "id": 1003,
@@ -45,20 +45,21 @@
       "warrantyOptions": [
         { "id": 3005, "name": "1Year_Warranty", "duration": "1 Year", "price": 9.99 },
         { "id": 3006, "name": "2Year_Warranty", "duration": "2 Years", "price": 14.99 }
-      ]
+      ],
+      "imageUrl": "/assets/images/amazon_echo.jpg"
     },
     {
       "id": 1004,
-      "name": "Philips Hue",
+      "name": "Philips RGBIC Smart Floor Lamp",
       "type": "Smart Lightings",
       "price": 59.99,
-      "description": "Smart LED bulb with customizable colors",
+      "description": "Smart LED  Floor Lamp with customizable colors",
       "accessories": [],
       "warrantyOptions": [
         { "id": 3007, "name": "1Year_Warranty", "duration": "1 Year", "price": 9.99 }
       ],
       "specialDiscount": 5,
-      "imageUrl": "/assets/images/wallmount2.jpg"
+      "imageUrl": "/assets/images/floor_lamp.jpg"
     },
     {
       "id": 1005,
@@ -74,14 +75,15 @@
         { "id": 3009, "name": "2Year_Warranty", "duration": "2 Years", "price": 49.99 },
         { "id": 3010, "name": "3Year_Warranty", "duration": "3 Years", "price": 69.99 }
       ],
-      "manufacturerRebate": 25
+      "manufacturerRebate": 25,
+      "imageUrl": "/assets/images/smart_thermostat.jpg"
     },
     {
       "id": 1006,
-      "name": "Arlo Pro 3",
+      "name": "Arlo Essential Wired Video Doorbell  ",
       "type": "Smart Doorbells",
       "price": 199.99,
-      "description": "Wireless home security camera system with HDR",
+      "description": "HD Video, 180° View, Night Vision, 2 Way Audio, DIY Installation ",
       "accessories": [
         { "id": 2007, "name": "Solar Panel Charger", "price": 49.99 },
         { "id": 2008, "name": "Extra Battery", "price": 39.99 }
@@ -90,7 +92,7 @@
         { "id": 3011, "name": "1Year_Warranty", "duration": "1 Year", "price": 29.99 },
         { "id": 3012, "name": "2Year_Warranty", "duration": "2 Years", "price": 49.99 }
       ],
-      "imageUrl": "/assets/images/wallmount2.jpg"
+      "imageUrl": "/assets/images/arlo_smart_door_bell.jpg"
     },
     {
       "id": 1007,
@@ -105,7 +107,8 @@
         { "id": 3013, "name": "1Year_Warranty", "duration": "1 Year", "price": 39.99 },
         { "id": 3014, "name": "2Year_Warranty", "duration": "2 Years", "price": 69.99 }
       ],
-      "specialDiscount": 20
+      "specialDiscount": 20,
+      "imageUrl": "/assets/images/yale_assure.jpg"
     },
     {
       "id": 1008,
@@ -120,7 +123,7 @@
         { "id": 3015, "name": "1Year_Warranty", "duration": "1 Year", "price": 7.99 }
       ],
       "manufacturerRebate": 5,
-      "imageUrl": "/assets/images/wallmount2.jpg"
+      "imageUrl": "/assets/images/google_nest.jpg"
     },
     {
       "id": 1009,
@@ -135,7 +138,8 @@
       "warrantyOptions": [
         { "id": 3016, "name": "1Year_Warranty", "duration": "1 Year", "price": 19.99 },
         { "id": 3017, "name": "2Year_Warranty", "duration": "2 Years", "price": 34.99 }
-      ]
+      ],
+      "imageUrl": "/assets/images/caseta_switch.jpg"
     },
     {
       "id": 1010,
@@ -154,6 +158,6 @@
       ],
       "specialDiscount": 15,
       "manufacturerRebate": 20,
-      "imageUrl": "/assets/images/wallmount2.jpg"
+      "imageUrl": "/assets/images/ecobee_smart_thermostat.jpg"
     }
   ]
