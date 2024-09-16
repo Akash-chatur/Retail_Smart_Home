@@ -82,7 +82,7 @@ React.useEffect(() => {
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            SmartHomes
+            SmartHome
           </Typography>
           {user?.role === 'Customer' && (
             <Button color="inherit" component={Link} to="/cart">Cart ({cart.length})</Button>
@@ -93,7 +93,7 @@ React.useEffect(() => {
       <Container maxWidth="lg">
         <Box sx={{ my: 4 }}>
           <Typography variant="h4" component="h1" gutterBottom>
-            Welcome to SmartHomes, {user?.username}!
+            Welcome to SmartHome, {user?.username}!
           </Typography>
           <Routes>
             {user?.role === 'Store Manager' && (
@@ -126,7 +126,7 @@ const UnauthenticatedApp: React.FC = () => {
     <Container component="main" maxWidth="xs">
       <Paper elevation={3} sx={{ mt: 8, p: 4 }}>
         <Typography component="h1" variant="h4" align="center" gutterBottom>
-          SmartHomes
+          SmartHome
         </Typography>
         <Box sx={{ mb: 2 }}>
           <ToggleButtonGroup

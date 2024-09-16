@@ -24,8 +24,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const login = (username: string, password: string): boolean => {
     const hardcodedUsers: User[] = [
-      { id: 1, username: 'storemanager', role: 'Store Manager' },
-      { id: 2, username: 'salesman', role: 'Salesman' }
+      { id: 1, username: 'Store Manager', role: 'Store Manager' },
+      { id: 2, username: 'Sales Man', role: 'Salesman' }
     ];
   
     const hardcodedPasswords: { [key: string]: string } = {
@@ -35,7 +35,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   
     const foundUser = hardcodedUsers.find(u => u.username === username);
     
-    if (foundUser && hardcodedPasswords[username] === password) {
+    const formattedUsername = username.replace(/\s+/g, '').toLowerCase();
+    if (foundUser && hardcodedPasswords[formattedUsername] === password) {
       setUser(foundUser);
       return true;
     }

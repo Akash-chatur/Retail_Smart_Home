@@ -17,29 +17,163 @@
       "imageUrl": "/assets/images/ring_doorbell.jpg"
     },
     {
-      "id": 1002,
-      "name": "Smart Home Lock",
-      "type": "Smart Doorlocks",
-      "price": 149.99,
-      "description": "Keyless entry smart lock with remote access",
+      "id": 2006,
+      "name": "Google Nest Doorbell (Battery)",
+      "type": "Smart Doorbells",
+      "price": 179.99,
+      "description": "Battery-powered video doorbell with Google Assistant",
       "accessories": [
-        { "id": 2003, "name": "Door Hardware Kit", "price": 29.99 }
+          { "id": 2010, "name": "Nest Doorbell Mount", "price": 14.99 },
+          { "id": 2011, "name": "Nest Doorbell Chime", "price": 29.99 }
       ],
       "warrantyOptions": [
-        { "id": 3003, "name": "1Year_Warranty", "duration": "1 Year", "price": 24.99 },
-        { "id": 3004, "name": "2Year_Warranty", "duration": "2 Years", "price": 39.99 }
+          { "id": 3011, "name": "1Year_Warranty", "duration": "1 Year", "price": 9.99 },
+          { "id": 3012, "name": "2Year_Warranty", "duration": "2 Years", "price": 14.99 }
       ],
-      "manufacturerRebate": 15,
-      "imageUrl": "/assets/images/home_lock.jpg"
-    },
-    {
+      "manufacturerRebate": 5,
+      "imageUrl": "/assets/images/google_nest_doorbell.jpg"
+  },
+  {
+    "id": 2007,
+    "name": "Eufy Security Video Doorbell 2K",
+    "type": "Smart Doorbells",
+    "price": 129.99,
+    "description": "2K resolution video doorbell with AI detection",
+    "accessories": [
+        { "id": 2012, "name": "Eufy Doorbell Mount", "price": 12.99 },
+        { "id": 2013, "name": "Eufy Doorbell Chime", "price": 24.99 }
+    ],
+    "warrantyOptions": [
+        { "id": 3013, "name": "1Year_Warranty", "duration": "1 Year", "price": 8.99 },
+        { "id": 3014, "name": "2Year_Warranty", "duration": "2 Years", "price": 13.99 }
+    ],
+    "imageUrl": "/assets/images/eufy_security_doorbell.jpg",
+    "specialDiscount": 15
+},
+{
+    "id": 2008,
+    "name": "SimpliSafe Video Doorbell Pro",
+    "type": "Smart Doorbells",
+    "price": 169.99,
+    "description": "HD video doorbell with motion detection",
+    "accessories": [
+        { "id": 2014, "name": "SimpliSafe Doorbell Mount", "price": 15.99 },
+        { "id": 2015, "name": "SimpliSafe Doorbell Chime", "price": 27.99 }
+    ],
+    "warrantyOptions": [
+        { "id": 3015, "name": "1Year_Warranty", "duration": "1 Year", "price": 10.99 },
+        { "id": 3016, "name": "2Year_Warranty", "duration": "2 Years", "price": 16.99 }
+    ],
+    "manufacturerRebate": 15,
+    "imageUrl": "/assets/images/simplisafe_doorbell.jpg"
+},
+{
+  "id": 1006,
+  "name": "Arlo Essential Wired Video Doorbell  ",
+  "type": "Smart Doorbells",
+  "price": 199.99,
+  "description": "HD Video, 180° View, Night Vision, 2 Way Audio, DIY Installation ",
+  "accessories": [
+    { "id": 2007, "name": "Solar Panel Charger", "price": 49.99 },
+    { "id": 2008, "name": "Extra Battery", "price": 39.99 }
+  ],
+  "warrantyOptions": [
+    { "id": 3011, "name": "1Year_Warranty", "duration": "1 Year", "price": 29.99 },
+    { "id": 3012, "name": "2Year_Warranty", "duration": "2 Years", "price": 49.99 }
+  ],
+  "specialDiscount": 13,
+  "imageUrl": "/assets/images/arlo_smart_door_bell.jpg"
+},
+{
+  "id": 1007,
+  "name": "Yale Assure Lock",
+  "type": "Smart Doorlocks",
+  "price": 279.99,
+  "description": "Touchscreen deadbolt with smart home integration",
+  "accessories": [
+    { "id": 2009, "name": "Wi-Fi Bridge", "price": 59.99 }
+  ],
+  "warrantyOptions": [
+    { "id": 3013, "name": "1Year_Warranty", "duration": "1 Year", "price": 39.99 },
+    { "id": 3014, "name": "2Year_Warranty", "duration": "2 Years", "price": 69.99 }
+  ],
+  "specialDiscount": 20,
+  "imageUrl": "/assets/images/yale_assure.jpg"
+},
+{
+  "id": 3001,
+  "name": "August Wi-Fi Smart Lock",
+  "type": "Smart Doorlocks",
+  "price": 229.99,
+  "description": "Smart lock with Wi-Fi connectivity and auto-unlock feature",
+  "accessories": [
+      { "id": 3016, "name": "August Connect Wi-Fi Bridge", "price": 79.99 },
+      { "id": 3017, "name": "August DoorSense", "price": 29.99 }
+  ],
+  "warrantyOptions": [
+      { "id": 3018, "name": "1Year_Warranty", "duration": "1 Year", "price": 12.99 },
+      { "id": 3019, "name": "2Year_Warranty", "duration": "2 Years", "price": 19.99 }
+  ],
+  "imageUrl": "/assets/images/august_wifi_smart_lock.jpg"
+},
+{
+  "id": 3002,
+  "name": "Schlage Encode Smart Wi-Fi Deadbolt",
+  "type": "Smart Doorlocks",
+  "price": 249.99,
+  "description": "Smart deadbolt with built-in Wi-Fi and voice control",
+  "accessories": [
+      { "id": 3020, "name": "Schlage Encode Keypad", "price": 39.99 },
+      { "id": 3021, "name": "Schlage Encode Handle Set", "price": 59.99 }
+  ],
+  "warrantyOptions": [
+      { "id": 3022, "name": "1Year_Warranty", "duration": "1 Year", "price": 13.99 },
+      { "id": 3023, "name": "2Year_Warranty", "duration": "2 Years", "price": 20.99 }
+  ],
+  "specialDiscount": 30,
+  "imageUrl": "/assets/images/schlage_encode_deadbolt.jpg"
+},
+{
+  "id": 3003,
+  "name": "Kwikset Halo Touchscreen Wi-Fi Smart Lock",
+  "type": "Smart Doorlocks",
+  "price": 199.99,
+  "description": "Touchscreen smart lock with Wi-Fi and app control",
+  "accessories": [
+      { "id": 3024, "name": "Kwikset Halo Keypad", "price": 34.99 },
+      { "id": 3025, "name": "Kwikset Halo Handle Set", "price": 49.99 }
+  ],
+  "warrantyOptions": [
+      { "id": 3026, "name": "1Year_Warranty", "duration": "1 Year", "price": 11.99 },
+      { "id": 3027, "name": "2Year_Warranty", "duration": "2 Years", "price": 17.99 }
+  ],
+  "manufacturerRebate": 7,
+  "imageUrl": "/assets/images/kwikset_halo_smart_lock.jpg"
+},
+{
+  "id": 3004,
+  "name": "Level Bolt Smart Lock",
+  "type": "Smart Doorlocks",
+  "price": 199.00,
+  "description": "Invisible smart lock that fits inside your door",
+  "accessories": [
+      { "id": 3028, "name": "Level Bolt Keypad", "price": 29.99 },
+      { "id": 3029, "name": "Level Bolt Handle Set", "price": 44.99 }
+  ],
+  "warrantyOptions": [
+      { "id": 3030, "name": "1Year_Warranty", "duration": "1 Year", "price": 10.99 },
+      { "id": 3031, "name": "2Year_Warranty", "duration": "2 Years", "price": 16.99 }
+  ],
+  "imageUrl": "/assets/images/level_bolt_smart_lock.jpg"
+},
+{
       "id": 1003,
       "name": "Amazon Echo",
       "type": "Smart Speakers",
       "price": 79.99,
       "description": "Voice-controlled smart speaker with Alexa",
       "accessories": [
-        { "id": 2004, "name": "Philips Hue Light Bulb", "price": 14.99 },
+        { "id": 2004, "name": "Amazon Echo Light Bulb", "price": 14.99 },
         { "id": 2005, "name": "Smart Plug", "price": 24.99 }
       ],
       "warrantyOptions": [
@@ -47,68 +181,6 @@
         { "id": 3006, "name": "2Year_Warranty", "duration": "2 Years", "price": 14.99 }
       ],
       "imageUrl": "/assets/images/amazon_echo.jpg"
-    },
-    {
-      "id": 1004,
-      "name": "Philips RGBIC Smart Floor Lamp",
-      "type": "Smart Lightings",
-      "price": 59.99,
-      "description": "Smart LED  Floor Lamp with customizable colors",
-      "accessories": [],
-      "warrantyOptions": [
-        { "id": 3007, "name": "1Year_Warranty", "duration": "1 Year", "price": 9.99 }
-      ],
-      "specialDiscount": 5,
-      "imageUrl": "/assets/images/floor_lamp.jpg"
-    },
-    {
-      "id": 1005,
-      "name": "Nest Thermostat",
-      "type": "Smart Thermostats",
-      "price": 249.99,
-      "description": "Smart thermostat with energy-saving features",
-      "accessories": [
-        { "id": 2006, "name": "Sensor Starter Pack", "price": 99.99 }
-      ],
-      "warrantyOptions": [
-        { "id": 3008, "name": "1Year_Warranty", "duration": "1 Year", "price": 29.99 },
-        { "id": 3009, "name": "2Year_Warranty", "duration": "2 Years", "price": 49.99 },
-        { "id": 3010, "name": "3Year_Warranty", "duration": "3 Years", "price": 69.99 }
-      ],
-      "manufacturerRebate": 25,
-      "imageUrl": "/assets/images/smart_thermostat.jpg"
-    },
-    {
-      "id": 1006,
-      "name": "Arlo Essential Wired Video Doorbell  ",
-      "type": "Smart Doorbells",
-      "price": 199.99,
-      "description": "HD Video, 180° View, Night Vision, 2 Way Audio, DIY Installation ",
-      "accessories": [
-        { "id": 2007, "name": "Solar Panel Charger", "price": 49.99 },
-        { "id": 2008, "name": "Extra Battery", "price": 39.99 }
-      ],
-      "warrantyOptions": [
-        { "id": 3011, "name": "1Year_Warranty", "duration": "1 Year", "price": 29.99 },
-        { "id": 3012, "name": "2Year_Warranty", "duration": "2 Years", "price": 49.99 }
-      ],
-      "imageUrl": "/assets/images/arlo_smart_door_bell.jpg"
-    },
-    {
-      "id": 1007,
-      "name": "Yale Assure Lock",
-      "type": "Smart Doorlocks",
-      "price": 279.99,
-      "description": "Touchscreen deadbolt with smart home integration",
-      "accessories": [
-        { "id": 2009, "name": "Wi-Fi Bridge", "price": 59.99 }
-      ],
-      "warrantyOptions": [
-        { "id": 3013, "name": "1Year_Warranty", "duration": "1 Year", "price": 39.99 },
-        { "id": 3014, "name": "2Year_Warranty", "duration": "2 Years", "price": 69.99 }
-      ],
-      "specialDiscount": 20,
-      "imageUrl": "/assets/images/yale_assure.jpg"
     },
     {
       "id": 1008,
@@ -122,8 +194,71 @@
       "warrantyOptions": [
         { "id": 3015, "name": "1Year_Warranty", "duration": "1 Year", "price": 7.99 }
       ],
-      "manufacturerRebate": 5,
+      "manufacturerRebate": 11,
       "imageUrl": "/assets/images/google_nest.jpg"
+    },
+    {
+      "id": 4001,
+      "name": "Sonos One (Gen 2)",
+      "type": "Smart Speakers",
+      "price": 199.00,
+      "description": "Voice-controlled smart speaker with Alexa and Google Assistant",
+      "accessories": [
+          { "id": 4010, "name": "Sonos One Stand", "price": 49.99 },
+          { "id": 4011, "name": "Sonos One Wall Mount", "price": 39.99 }
+      ],
+      "warrantyOptions": [
+          { "id": 4012, "name": "1Year_Warranty", "duration": "1 Year", "price": 14.99 },
+          { "id": 4013, "name": "2Year_Warranty", "duration": "2 Years", "price": 19.99 }
+      ],
+      "specialDiscount": 25,
+      "imageUrl": "/assets/images/sonos_one_gen2.jpg"
+  },
+  {
+      "id": 4002,
+      "name": "Bose Home Speaker 500",
+      "type": "Smart Speakers",
+      "price": 299.00,
+      "description": "Smart speaker with Alexa and Google Assistant built-in",
+      "accessories": [
+          { "id": 4014, "name": "Bose Speaker Remote", "price": 29.99 },
+          { "id": 4015, "name": "Bose Speaker Stand", "price": 59.99 }
+      ],
+      "warrantyOptions": [
+          { "id": 4016, "name": "1Year_Warranty", "duration": "1 Year", "price": 15.99 },
+          { "id": 4017, "name": "2Year_Warranty", "duration": "2 Years", "price": 21.99 }
+      ],
+      "imageUrl": "/assets/images/bose_home_speaker_500.jpg"
+  },
+  {
+      "id": 4003,
+      "name": "Harman Kardon Citation One",
+      "type": "Smart Speakers",
+      "price": 199.95,
+      "description": "Smart speaker with Google Assistant",
+      "accessories": [
+          { "id": 4018, "name": "Citation One Stand", "price": 49.99 },
+          { "id": 4019, "name": "Citation One Wall Mount", "price": 39.99 }
+      ],
+      "warrantyOptions": [
+          { "id": 4020, "name": "1Year_Warranty", "duration": "1 Year", "price": 13.99 },
+          { "id": 4021, "name": "2Year_Warranty", "duration": "2 Years", "price": 18.99 }
+      ],
+      "manufacturerRebate": 9,
+      "imageUrl": "/assets/images/harman_kardon_citation_one.jpg"
+  },
+    {
+      "id": 1004,
+      "name": "Philips RGBIC Smart Floor Lamp",
+      "type": "Smart Lightings",
+      "price": 59.99,
+      "description": "Smart LED  Floor Lamp with customizable colors",
+      "accessories": [],
+      "warrantyOptions": [
+        { "id": 3007, "name": "1Year_Warranty", "duration": "1 Year", "price": 9.99 }
+      ],
+      "specialDiscount": 12,
+      "imageUrl": "/assets/images/floor_lamp.jpg"
     },
     {
       "id": 1009,
@@ -140,6 +275,81 @@
         { "id": 3017, "name": "2Year_Warranty", "duration": "2 Years", "price": 34.99 }
       ],
       "imageUrl": "/assets/images/caseta_switch.jpg"
+    },
+    {
+      "id": 5001,
+      "name": "Nanoleaf Shapes Hexagons",
+      "type": "Smart Lightings",
+      "price": 199.99,
+      "description": "Modular smart lighting panels with customizable colors and shapes",
+      "accessories": [
+          { "id": 5010, "name": "Nanoleaf Shapes Controller", "price": 29.99 },
+          { "id": 5011, "name": "Nanoleaf Shapes Mounting Kit", "price": 19.99 },
+          { "id": 5012, "name": "Nanoleaf Shapes Expansion Pack", "price": 59.99 },
+          { "id": 5013, "name": "Nanoleaf Shapes Power Supply", "price": 24.99 },
+          { "id": 5014, "name": "Nanoleaf Shapes Rhythm Module", "price": 49.99 }
+      ],
+      "warrantyOptions": [
+          { "id": 5015, "name": "1Year_Warranty", "duration": "1 Year", "price": 9.99 },
+          { "id": 5016, "name": "2Year_Warranty", "duration": "2 Years", "price": 14.99 }
+      ],
+      "specialDiscount": 10,
+      "imageUrl": "/assets/images/nanoleaf_shapes_hexagons.jpg"
+  },
+  {
+      "id": 5002,
+      "name": "Sengled Smart LED Multicolor Bulb",
+      "type": "Smart Lightings",
+      "price": 29.99,
+      "description": "Smart LED bulb with multicolor and dimmable features",
+      "accessories": [
+          { "id": 5017, "name": "Sengled Smart Hub", "price": 39.99 },
+          { "id": 5018, "name": "Sengled Smart Light Strip", "price": 49.99 },
+          { "id": 5019, "name": "Sengled Smart Plug", "price": 24.99 },
+          { "id": 5020, "name": "Sengled Motion Sensor", "price": 19.99 }
+      ],
+      "warrantyOptions": [
+          { "id": 5021, "name": "1Year_Warranty", "duration": "1 Year", "price": 7.99 },
+          { "id": 5022, "name": "2Year_Warranty", "duration": "2 Years", "price": 12.99 }
+      ],
+      "imageUrl": "/assets/images/sengled_smart_led_bulb.jpg"
+  },
+  {
+      "id": 5003,
+      "name": "TP-Link Kasa Smart Light Strip",
+      "type": "Smart Lightings",
+      "price": 69.99,
+      "description": "Smart light strip with customizable colors and app control",
+      "accessories": [
+          { "id": 5023, "name": "Kasa Smart Plug", "price": 19.99 },
+          { "id": 5024, "name": "Kasa Smart Dimmer Switch", "price": 29.99 },
+          { "id": 5025, "name": "Kasa Smart Motion Sensor", "price": 24.99 },
+          { "id": 5026, "name": "Kasa Smart Light Strip Extension", "price": 39.99 },
+          { "id": 5027, "name": "Kasa Smart Hub", "price": 49.99 }
+      ],
+      "warrantyOptions": [
+          { "id": 5028, "name": "1Year_Warranty", "duration": "1 Year", "price": 8.99 },
+          { "id": 5029, "name": "2Year_Warranty", "duration": "2 Years", "price": 13.99 }
+      ],
+      "specialDiscount": 18,
+      "imageUrl": "/assets/images/tp_link_kasa_light_strip.jpg"
+    },  
+    {
+      "id": 1005,
+      "name": "Nest Thermostat",
+      "type": "Smart Thermostats",
+      "price": 249.99,
+      "description": "Smart thermostat with energy-saving features",
+      "accessories": [
+        { "id": 2006, "name": "Sensor Starter Pack", "price": 99.99 }
+      ],
+      "warrantyOptions": [
+        { "id": 3008, "name": "1Year_Warranty", "duration": "1 Year", "price": 29.99 },
+        { "id": 3009, "name": "2Year_Warranty", "duration": "2 Years", "price": 49.99 },
+        { "id": 3010, "name": "3Year_Warranty", "duration": "3 Years", "price": 69.99 }
+      ],
+      "manufacturerRebate": 25,
+      "imageUrl": "/assets/images/smart_thermostat.jpg"
     },
     {
       "id": 1010,
@@ -159,5 +369,60 @@
       "specialDiscount": 15,
       "manufacturerRebate": 20,
       "imageUrl": "/assets/images/ecobee_smart_thermostat.jpg"
-    }
+    },
+    {
+      "id": 6007,
+      "name": "Honeywell Home T9 Smart Thermostat",
+      "type": "Smart Thermostats",
+      "price": 199.99,
+      "description": "Smart thermostat with room sensors and Alexa compatibility",
+      "accessories": [
+          { "id": 6046, "name": "Honeywell Room Sensor", "price": 39.99 },
+          { "id": 6047, "name": "Honeywell Smart Thermostat Mount", "price": 19.99 },
+          { "id": 6048, "name": "Honeywell Smart Thermostat Cover", "price": 14.99 }
+      ],
+      "warrantyOptions": [
+          { "id": 6049, "name": "1Year_Warranty", "duration": "1 Year", "price": 9.99 },
+          { "id": 6050, "name": "2Year_Warranty", "duration": "2 Years", "price": 14.99 }
+      ],
+      "manufacturerRebate": 12,
+      "imageUrl": "/assets/images/honeywell_t9.jpg"
+  },
+  {
+      "id": 6008,
+      "name": "Emerson Sensi Touch Wi-Fi Thermostat",
+      "type": "Smart Thermostats",
+      "price": 169.99,
+      "description": "Wi-Fi thermostat with touchscreen and smart home integration",
+      "accessories": [
+          { "id": 6051, "name": "Emerson Sensi Room Sensor", "price": 29.99 },
+          { "id": 6052, "name": "Emerson Sensi Wall Plate", "price": 14.99 },
+          { "id": 6053, "name": "Emerson Sensi Thermostat Cover", "price": 12.99 }
+      ],
+      "warrantyOptions": [
+          { "id": 6054, "name": "1Year_Warranty", "duration": "1 Year", "price": 8.99 },
+          { "id": 6055, "name": "2Year_Warranty", "duration": "2 Years", "price": 13.99 }
+      ],
+      "specialDiscount": 21,
+      "imageUrl": "/assets/images/emerson_sensi_touch.jpg"
+  },
+  {
+      "id": 6009,
+      "name": "Lux Kono Smart Thermostat",
+      "type": "Smart Thermostats",
+      "price": 149.99,
+      "description": "Smart thermostat with interchangeable faceplates and app control",
+      "accessories": [
+          { "id": 6056, "name": "Lux Kono Faceplate", "price": 19.99 },
+          { "id": 6057, "name": "Lux Kono Wall Plate", "price": 14.99 },
+          { "id": 6058, "name": "Lux Kono Room Sensor", "price": 24.99 }
+      ],
+      "warrantyOptions": [
+          { "id": 6059, "name": "1Year_Warranty", "duration": "1 Year", "price": 7.99 },
+          { "id": 6060, "name": "2Year_Warranty", "duration": "2 Years", "price": 12.99 }
+      ],
+      "manufacturerRebate": 15,
+      "imageUrl": "/assets/images/lux_kono.jpg"
+  }
+  
   ]

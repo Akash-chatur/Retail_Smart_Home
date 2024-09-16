@@ -106,9 +106,18 @@ const OrderForm: React.FC<OrderFormProps> = ({ clearCart, cart }) => {
   const handleBack = () => setActiveStep(prevStep => prevStep - 1);
 
   const storeLocations = [
-    { id: 1, name: 'Store 1', zip: '12345' },
-    { id: 2, name: 'Store 2', zip: '23456' },
-  ];
+    { id: 1, name: '123 Main St, Springfield, IL', zip: '62701' },
+    { id: 2, name: '456 Elm St, Austin, TX', zip: '78701' },
+    { id: 3, name: '789 Maple Ave, Seattle, WA', zip: '98101' },
+    { id: 4, name: '101 Pine St, Denver, CO', zip: '80201' },
+    { id: 5, name: '202 Oak St, Miami, FL', zip: '33101' },
+    { id: 6, name: '303 Birch Rd, Boston, MA', zip: '02101' },
+    { id: 7, name: '404 Cedar Blvd, San Francisco, CA', zip: '94101' },
+    { id: 8, name: '505 Walnut St, Chicago, IL', zip: '60601' },
+    { id: 9, name: '606 Chestnut Ave, New York, NY', zip: '10001' },
+    { id: 10, name: '707 Willow Ln, Los Angeles, CA', zip: '90001' }
+];
+
 
   const handleCloseDialog = () => {
     setOpenRebateDialog(false);
