@@ -3,25 +3,47 @@ import {
   Typography, Grid, Card, CardContent, CardActions, IconButton, Button, Divider, Box, Chip
 } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
-import { Accessory, Product, WarrantyOption } from '../../types/Product';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-type CartItem = Product | Accessory | WarrantyOption;
+type CartItem = {
+  id: number;
+  name: string;
+  price: number;
+  specialDiscount?: number;
+  quantity: number;
+};
 
 interface ShoppingCartProps {
   cart: CartItem[];
   removeFromCart: (itemId: number) => void;
+  updateCartQuantity: (itemId: number, newQuantity: number) => void; 
 }
 
-const ShoppingCart: React.FC<ShoppingCartProps> = ({ cart, removeFromCart }) => {
-  // Calculate total with discounts applied
+const ShoppingCart: React.FC<ShoppingCartProps> = ({ cart, removeFromCart, updateCartQuantity }) => {
+  // Calculate total with discounts and quantities applied
   const total = cart.reduce((sum, item) => {
-    if ('specialDiscount' in item && item.specialDiscount) {
-      return sum + (item.price - item.specialDiscount);
+    const price = item.specialDiscount ? item.price - item.specialDiscount : item.price;
+    return sum + (price * (item.quantity || 0));
+}, 0);
+
+
+  // Handle item removal with toast
+  const handleRemoveFromCart = (item: CartItem) => {
+    removeFromCart(item.id);
+    toast.success(`${item.name} has been removed from the cart!`);
+  };
+
+  // Handle quantity change
+  const handleQuantityChange = (item: CartItem, newQuantity: number) => {
+    if (newQuantity <= 0) {
+      handleRemoveFromCart(item);
+    } else {
+      updateCartQuantity(item.id, newQuantity);
     }
-    return sum + item.price;
-  }, 0);
+  };
 
   return (
     <Box sx={{ mt: 4, mx: 'auto', maxWidth: 1200, px: 3 }}>
@@ -33,15 +55,36 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({ cart, removeFromCart }) => 
       <Grid container spacing={3}>
         {cart.length === 0 ? (
           <Grid item xs={12}>
-            <Typography variant="h6" align="center" color="text.secondary">
-              Your cart is empty. Add some items to get started!
-            </Typography>
+            <Card sx={{ p: 4, textAlign: 'center', borderRadius: 3, boxShadow: 4 }}>
+              <Typography variant="h6" color="text.secondary">
+                Your cart is empty.
+              </Typography>
+              <Typography variant="body1" sx={{ mt: 2 }}>
+                Add some products to start shopping!
+              </Typography>
+              <Button
+                component={RouterLink}
+                to="/products"
+                variant="contained"
+                color="primary"
+                sx={{ mt: 3, borderRadius: 2 }}
+              >
+                Go to Products Page
+              </Button>
+            </Card>
           </Grid>
         ) : (
           <>
             {cart.map((item) => (
               <Grid item xs={12} sm={6} md={4} key={item.id}>
-                <Card sx={{ borderRadius: 3, boxShadow: 3, transition: 'transform 0.3s ease', '&:hover': { transform: 'scale(1.05)', boxShadow: 5 } }}>
+                <Card
+                  sx={{
+                    borderRadius: 3,
+                    boxShadow: 3,
+                    transition: 'transform 0.3s ease',
+                    '&:hover': { transform: 'scale(1.05)', boxShadow: 5 },
+                  }}
+                >
                   <CardContent>
                     <Typography variant="h6" component="div" sx={{ fontWeight: 'bold' }}>
                       {item.name}
@@ -50,12 +93,19 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({ cart, removeFromCart }) => 
                       {item.name || 'No description available.'}
                     </Typography>
 
-                    { 'specialDiscount' in item && item.specialDiscount ? (
+                    {'specialDiscount' in item && item.specialDiscount ? (
                       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                        <Typography variant="body2" color="text.secondary" sx={{ textDecoration: 'line-through' }}>
+                        <Typography
+                          variant="body2"
+                          color="text.secondary"
+                          sx={{ textDecoration: 'line-through' }}
+                        >
                           ${item.price.toFixed(2)}
                         </Typography>
-                        <Chip label={`${((item.specialDiscount / item.price) * 100).toFixed(0)}% off`} size="small" />
+                        <Chip
+                          label={`${((item.specialDiscount / item.price) * 100).toFixed(0)}% off`}
+                          size="small"
+                        />
                         <Typography variant="h6" color="primary">
                           ${(item.price - item.specialDiscount).toFixed(2)}
                         </Typography>
@@ -65,10 +115,30 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({ cart, removeFromCart }) => 
                         ${item.price.toFixed(2)}
                       </Typography>
                     )}
+
+                    <Box sx={{ mt: 2, display: 'flex', alignItems: 'center' }}>
+                      <Button
+                        onClick={() => handleQuantityChange(item, item.quantity - 1)}
+                        variant="outlined"
+                        sx={{ minWidth: '40px' }}
+                      >
+                        -
+                      </Button>
+                      <Typography variant="body1" sx={{ mx: 2 }}>
+                        {item.quantity}
+                      </Typography>
+                      <Button
+                        onClick={() => handleQuantityChange(item, item.quantity + 1)}
+                        variant="outlined"
+                        sx={{ minWidth: '40px' }}
+                      >
+                        +
+                      </Button>
+                    </Box>
                   </CardContent>
 
                   <CardActions>
-                    <IconButton onClick={() => removeFromCart(item.id)} color="error">
+                    <IconButton onClick={() => handleRemoveFromCart(item)} color="error">
                       <DeleteIcon />
                     </IconButton>
                   </CardActions>
@@ -103,7 +173,10 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({ cart, removeFromCart }) => 
 
                   <Divider sx={{ my: 2 }} />
 
-                  <Typography variant="h6" sx={{ display: 'flex', justifyContent: 'space-between', fontWeight: 'bold' }}>
+                  <Typography
+                    variant="h6"
+                    sx={{ display: 'flex', justifyContent: 'space-between', fontWeight: 'bold' }}
+                  >
                     <span>Total</span>
                     <span>${(total * 1.07).toFixed(2)}</span>
                   </Typography>
@@ -133,6 +206,9 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({ cart, removeFromCart }) => 
           </>
         )}
       </Grid>
+
+      {/* Toast Container for notifications */}
+      <ToastContainer />
     </Box>
   );
 };

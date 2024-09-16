@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material';
+import { Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, Box, Alert } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import { useOrder } from './OrderContext';
 import { useAuth } from '../../context/AuthContext';
@@ -27,39 +27,58 @@ const OrderStatus: React.FC = () => {
 
   return (
     <>
-      <Typography variant="h4" gutterBottom>Order Status</Typography>
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Confirmation</TableCell>
-              <TableCell>Delivery Date</TableCell>
-              <TableCell>Status</TableCell>
-              <TableCell>Actions</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {userOrders.map((order) => (
-              <TableRow key={order.id}>
-                <TableCell>{order.confirmation}</TableCell>
-                <TableCell>{order.deliveryDate}</TableCell>
-                <TableCell>{order.status}</TableCell>
-                <TableCell>
-                  {canceledOrders.has(order.id) ? (
-                    <Button variant="outlined" color="secondary" onClick={() => handleDeleteOrder(order.id)}>
-                      Delete Order
-                    </Button>
-                  ) : (
-                    <Button variant="outlined" color="secondary" onClick={() => handleCancelOrder(order.id)}>
-                      Cancel Order
-                    </Button>
-                  )}
-                </TableCell>
+      <Typography variant="h4" gutterBottom>
+        Order Status
+      </Typography>
+      {userOrders.length === 0 ? (
+        <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" mt={4}>
+          <Alert severity="info" sx={{ mb: 2 }}>
+            You have no orders yet.
+          </Alert>
+          <Button
+            component={RouterLink}
+            to="/products"
+            variant="contained"
+            color="primary"
+          >
+            Order Something
+          </Button>
+        </Box>
+      ) : (
+        <TableContainer component={Paper}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Confirmation</TableCell>
+                <TableCell>Delivery Date</TableCell>
+                <TableCell>Status</TableCell>
+                <TableCell>Actions</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+            </TableHead>
+            <TableBody>
+              {userOrders.map((order) => (
+                <TableRow key={order.id}>
+                  <TableCell>{order.confirmation}</TableCell>
+                  <TableCell>{order.deliveryDate}</TableCell>
+                  <TableCell>{order.status}</TableCell>
+                  <TableCell>
+                    {canceledOrders.has(order.id) ? (
+                      <Button variant="outlined" color="secondary" onClick={() => handleDeleteOrder(order.id)}>
+                        Delete Order
+                      </Button>
+                    ) : (
+                      <Button variant="outlined" color="secondary" onClick={() => handleCancelOrder(order.id)}>
+                        Cancel Order
+                      </Button>
+                    )}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      )}
+      {userOrders.length !== 0 ? (
       <Button
         component={RouterLink}
         to="/products"
@@ -68,7 +87,7 @@ const OrderStatus: React.FC = () => {
         sx={{ mt: 3 }}
       >
         Back to Products
-      </Button>
+      </Button>): null }
     </>
   );
 };
