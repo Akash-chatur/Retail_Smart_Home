@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useUser } from '../UserManagement/UserContext';
 import { TextField, Button, Typography, Box, Alert } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import './signup.css';  
 
 const Signup: React.FC = () => {
   const [username, setUsername] = useState('');
@@ -22,9 +23,9 @@ const Signup: React.FC = () => {
   };
 
   return (
-    <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-      <Typography component="h2" variant="h5" align="center" gutterBottom>
-        Sign Up
+    <Box className='singup-box' component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+      <Typography className='signup-text' component="h1" variant="h4" align="center" gutterBottom>
+        Sign up to start shopping
       </Typography>
       {error && (
         <Alert severity="error" sx={{ mb: 2 }}>
@@ -41,6 +42,7 @@ const Signup: React.FC = () => {
         autoComplete="username"
         autoFocus
         value={username}
+        className='user-label'
         onChange={(e) => setUsername(e.target.value)}
       />
       <TextField

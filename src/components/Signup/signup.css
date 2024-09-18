@@ -1,0 +1,13 @@
+.signup-text {
+    max-width: 220px;
+    margin: auto !important;
+}
+
+.user-label {
+    color: white !important;
+    border: 1px solid #ffffff !important;
+}
+
+label {
+    color: white !important;
+}

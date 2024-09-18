@@ -16,6 +16,7 @@ import ManageUsers from './components/UserManagement/ManageUsers';
 import { Accessory, Product, WarrantyOption } from './types/Product';
 import initialProducts from './data/products.json';
 import Header from './components/Header/Header';
+import './App.css';
 
 const theme = createTheme({
   palette: {
@@ -128,12 +129,12 @@ const UnauthenticatedApp: React.FC = () => {
 
   return (
     <Container component="main" maxWidth="xs">
-      <Paper elevation={3} sx={{ mt: 8, p: 4 }}>
+      <Paper elevation={3} sx={{ mt: 8, p: 4 }} className='app-paper'>
         <Header />
-        <Typography component="h1" variant="h4" align="center" gutterBottom>
+        {/* <Typography component="h1" variant="h4" align="center" gutterBottom>
           SmartHome
-        </Typography>
-        <Box sx={{ mb: 2 }}>
+        </Typography> */}
+        {/* <Box sx={{ mb: 2 }}>
           <ToggleButtonGroup
             color="primary"
             value={showLogin}
@@ -145,8 +146,9 @@ const UnauthenticatedApp: React.FC = () => {
             <ToggleButton value={true}>Login</ToggleButton>
             <ToggleButton value={false}>Signup</ToggleButton>
           </ToggleButtonGroup>
-        </Box>
-        {showLogin ? <Login /> : <Signup />}
+        </Box> */}
+        {/* {showLogin ? <Login /> : <Signup />} */}
+        <Signup/>
       </Paper>
     </Container>
   );

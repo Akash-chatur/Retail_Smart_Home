@@ -1,12 +1,11 @@
-import image from '../../assets/images/smart-home.jpg'
+import image from '../../assets/images/smart-home.jpg';
+import './header.css';
 
 const Header: React.FC = () => {
 
     return (
         <>
-
-            <div style={{textAlign: 'center'}}>Hello Header</div>
-            <img src={image}/>
+            <img src={image} className='home-image'/>
         </>
     )
 }
