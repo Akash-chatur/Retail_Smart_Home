@@ -80,8 +80,8 @@ const AuthenticatedApp: React.FC = () => {
 
   return (
     <>
-      <Header />
       <Box sx={{ flexGrow: 1 }}>
+        <Header />
         <AppBar position="static">
           <Toolbar>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
@@ -127,30 +127,28 @@ const UnauthenticatedApp: React.FC = () => {
   const [showLogin, setShowLogin] = React.useState(true);
 
   return (
-    <>
-    <Header/>
-      <Container component="main" maxWidth="xs">
-        <Paper elevation={3} sx={{ mt: 8, p: 4 }}>
-          <Typography component="h1" variant="h4" align="center" gutterBottom>
-            SmartHome
-          </Typography>
-          <Box sx={{ mb: 2 }}>
-            <ToggleButtonGroup
-              color="primary"
-              value={showLogin}
-              exclusive
-              onChange={(_, newValue) => setShowLogin(newValue)}
-              aria-label="auth mode"
-              fullWidth
-            >
-              <ToggleButton value={true}>Login</ToggleButton>
-              <ToggleButton value={false}>Signup</ToggleButton>
-            </ToggleButtonGroup>
-          </Box>
-          {showLogin ? <Login /> : <Signup />}
-        </Paper>
-      </Container>
-    </>
+    <Container component="main" maxWidth="xs">
+      <Paper elevation={3} sx={{ mt: 8, p: 4 }}>
+        <Header />
+        <Typography component="h1" variant="h4" align="center" gutterBottom>
+          SmartHome
+        </Typography>
+        <Box sx={{ mb: 2 }}>
+          <ToggleButtonGroup
+            color="primary"
+            value={showLogin}
+            exclusive
+            onChange={(_, newValue) => setShowLogin(newValue)}
+            aria-label="auth mode"
+            fullWidth
+          >
+            <ToggleButton value={true}>Login</ToggleButton>
+            <ToggleButton value={false}>Signup</ToggleButton>
+          </ToggleButtonGroup>
+        </Box>
+        {showLogin ? <Login /> : <Signup />}
+      </Paper>
+    </Container>
   );
 };
 
