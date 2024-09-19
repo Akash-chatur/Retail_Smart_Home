@@ -32,12 +32,15 @@ const Signup: React.FC = () => {
           {error}
         </Alert>
       )}
+      <Typography>
+        Email address
+      </Typography>
       <TextField
         margin="normal"
         required
         fullWidth
         id="username"
-        label="Username"
+
         name="username"
         autoComplete="username"
         autoFocus
@@ -55,6 +58,7 @@ const Signup: React.FC = () => {
         id="password"
         autoComplete="new-password"
         value={password}
+        className='user-label'
         onChange={(e) => setPassword(e.target.value)}
       />
       <Button
