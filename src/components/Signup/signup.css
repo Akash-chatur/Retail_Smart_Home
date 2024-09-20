@@ -1,5 +1,5 @@
 .signup-text {
-    max-width: 220px;
+    max-width: 220px !important;
     margin: auto !important;
     padding-bottom: 40px;
 }
