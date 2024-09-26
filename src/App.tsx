@@ -15,8 +15,6 @@ import OrderStatus from './components/OrderPlacement/OrderStatus';
 import ManageUsers from './components/UserManagement/ManageUsers';
 import { Accessory, Product, WarrantyOption } from './types/Product';
 import initialProducts from './data/products.json';
-import Header from './components/Header/Header';
-import './App.css';
 
 const theme = createTheme({
   palette: {
@@ -42,12 +40,12 @@ const AuthenticatedApp: React.FC = () => {
   });
 
   const clearCart = () => setCart([]);
-
+  
   const addToCart = (item: Product | Accessory | WarrantyOption) => {
     const newItem = { ...item, quantity: 1 };
     setCart(prevCart => [...prevCart, newItem]);
-  };
-
+};
+  
 
   const removeFromCart = (itemId: number) => {
     setCart(cart.filter(item => item.id !== itemId));
@@ -60,7 +58,7 @@ const AuthenticatedApp: React.FC = () => {
       )
     );
   };
-
+  
 
   React.useEffect(() => {
     localStorage.setItem('cart', JSON.stringify(cart));
@@ -68,59 +66,56 @@ const AuthenticatedApp: React.FC = () => {
 
   let storedProducts: Product[] = [];
 
-  React.useEffect(() => {
-    const productsFromStorage = localStorage.getItem('products');
-    if (productsFromStorage) {
-      storedProducts = JSON.parse(productsFromStorage) as Product[];
-    } else {
-      localStorage.setItem('products', JSON.stringify(initialProducts));
-      storedProducts = initialProducts;
-    }
-  }, []);
+React.useEffect(() => {
+  const productsFromStorage = localStorage.getItem('products');
+  if (productsFromStorage) {
+    storedProducts = JSON.parse(productsFromStorage) as Product[];
+  } else {
+    localStorage.setItem('products', JSON.stringify(initialProducts));
+    storedProducts = initialProducts;
+  }
+}, []);
 
 
   return (
-    <>
-      <Box sx={{ flexGrow: 1 }}>
-        <Header />
-        <AppBar position="static">
-          <Toolbar>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              SmartHome
-            </Typography>
-            {user?.role === 'Customer' && (
-              <Button color="inherit" component={Link} to="/cart">Cart ({cart.length})</Button>
+    <Box sx={{ flexGrow: 1 }}>
+      <AppBar position="static">
+        <Toolbar>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            SmartHome
+          </Typography>
+          {user?.role === 'Customer' && (
+            <Button color="inherit" component={Link} to="/cart">Cart ({cart.length})</Button>
+          )}
+          <Button color="inherit" onClick={logout}>Logout</Button>
+        </Toolbar>
+      </AppBar>
+      <Container maxWidth="lg">
+        <Box sx={{ my: 4 }}>
+          <Typography variant="h4" component="h1" gutterBottom>
+            Welcome to SmartHome, {user?.username}!
+          </Typography>
+          <Routes>
+            {user?.role === 'Store Manager' && (
+              <Route path="/manage-products" element={<ProductManagement />} />
             )}
-            <Button color="inherit" onClick={logout}>Logout</Button>
-          </Toolbar>
-        </AppBar>
-        <Container maxWidth="lg">
-          <Box sx={{ my: 4 }}>
-            <Typography variant="h4" component="h1" gutterBottom>
-              Welcome to SmartHome, {user?.username}!
-            </Typography>
-            <Routes>
-              {user?.role === 'Store Manager' && (
-                <Route path="/manage-products" element={<ProductManagement />} />
-              )}
-              {user?.role === 'Salesman' && (
-                <Route path="/manage-users" element={<ManageUsers />} />
-              )}
-              {user?.role === 'Customer' && (
-                <>
-                  <Route path="/products" element={<CustomerView addToCart={addToCart} />} />
-                  <Route path="/cart" element={<ShoppingCart cart={cart} removeFromCart={removeFromCart} updateCartQuantity={updateCartQuantity} />} />
+            {user?.role === 'Salesman' && (
+              <Route path="/manage-users" element={<ManageUsers />} />
+            )}
+            {user?.role === 'Customer' && (
+              <>
+                <Route path="/products" element={<CustomerView addToCart={addToCart} />} />
+                <Route path="/cart" element={<ShoppingCart cart={cart} removeFromCart={removeFromCart} updateCartQuantity={updateCartQuantity} />}/>
 
-                  <Route path="/order" element={<OrderForm clearCart={clearCart} cart={cart} />} />
-                  <Route path="/order-status" element={<OrderStatus />} />
-                </>
-              )}
-              <Route path="*" element={<Navigate to={user?.role === 'Customer' ? "/products" : user?.role === 'Salesman' ? "/manage-users" : "/manage-products"} />} />
-            </Routes>
-          </Box>
-        </Container>
-      </Box>
-    </>
+                <Route path="/order" element={<OrderForm clearCart={clearCart} cart={cart} />} />
+                <Route path="/order-status" element={<OrderStatus />} />
+              </>
+            )}
+            <Route path="*" element={<Navigate to={user?.role === 'Customer' ? "/products" : user?.role === 'Salesman' ? "/manage-users" : "/manage-products"} />} />
+          </Routes>
+        </Box>
+      </Container>
+    </Box>
   );
 };
 
@@ -129,12 +124,11 @@ const UnauthenticatedApp: React.FC = () => {
 
   return (
     <Container component="main" maxWidth="xs">
-      <Paper elevation={3} sx={{ mt: 8, p: 4 }} className='app-paper'>
-        <Header />
-        {/* <Typography component="h1" variant="h4" align="center" gutterBottom>
+      <Paper elevation={3} sx={{ mt: 8, p: 4 }}>
+        <Typography component="h1" variant="h4" align="center" gutterBottom>
           SmartHome
-        </Typography> */}
-        {/* <Box sx={{ mb: 2 }}>
+        </Typography>
+        <Box sx={{ mb: 2 }}>
           <ToggleButtonGroup
             color="primary"
             value={showLogin}
@@ -146,9 +140,8 @@ const UnauthenticatedApp: React.FC = () => {
             <ToggleButton value={true}>Login</ToggleButton>
             <ToggleButton value={false}>Signup</ToggleButton>
           </ToggleButtonGroup>
-        </Box> */}
-        {/* {showLogin ? <Login /> : <Signup />} */}
-        <Signup/>
+        </Box>
+        {showLogin ? <Login /> : <Signup />}
       </Paper>
     </Container>
   );

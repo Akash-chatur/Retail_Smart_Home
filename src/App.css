@@ -36,8 +36,3 @@
     transform: rotate(360deg);
   }
 }
-
-.app-paper {
-  background: black !important;
-  color: white !important;
-}

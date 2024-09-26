@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useUser } from '../UserManagement/UserContext';
 import { TextField, Button, Typography, Box, Alert } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import './signup.css';  
 
 const Signup: React.FC = () => {
   const [username, setUsername] = useState('');
@@ -23,29 +22,25 @@ const Signup: React.FC = () => {
   };
 
   return (
-    <Box className='singup-box' component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-      <Typography className='signup-text' component="h1" variant="h4" align="center" gutterBottom>
-        Sign up to start shopping
+    <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+      <Typography component="h2" variant="h5" align="center" gutterBottom>
+        Sign Up
       </Typography>
       {error && (
         <Alert severity="error" sx={{ mb: 2 }}>
           {error}
         </Alert>
       )}
-      <Typography>
-        Email address
-      </Typography>
       <TextField
         margin="normal"
         required
         fullWidth
         id="username"
-
+        label="Username"
         name="username"
         autoComplete="username"
         autoFocus
         value={username}
-        className='user-label'
         onChange={(e) => setUsername(e.target.value)}
       />
       <TextField
@@ -58,7 +53,6 @@ const Signup: React.FC = () => {
         id="password"
         autoComplete="new-password"
         value={password}
-        className='user-label'
         onChange={(e) => setPassword(e.target.value)}
       />
       <Button
