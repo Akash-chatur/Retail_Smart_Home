@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import {
   Grid, Card, CardContent, CardMedia, Typography, Button, Tabs, Tab, Dialog,
-  DialogContent, IconButton, Box, Chip, Divider, Rating, Stack, Slide
+  DialogContent, IconButton, Box, Chip, Divider, Rating, Stack, Slide,
+  DialogActions
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { Carousel } from 'react-responsive-carousel';
@@ -11,6 +12,7 @@ import { Product, Accessory, WarrantyOption } from '../../types/Product';
 import initialProducts from '../../data/products.json'; // Import JSON data
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ReviewComponent from '../CustomerReview/ReviewComponent';
 
 interface CustomerViewProps {
   addToCart: (item: Product | Accessory | WarrantyOption) => void;
@@ -39,6 +41,9 @@ const CustomerView: React.FC<CustomerViewProps> = ({ addToCart }) => {
   const [selectedType, setSelectedType] = useState<string>("All");
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [open, setOpen] = useState(false);
+  const [reviews, setReviews] = useState([]);
+  const [openReviewDialog, setOpenReviewDialog] = useState(true);
+  const [openViewReviewsDialog, setOpenViewReviewsDialog] = useState(false);
 
   const handleTypeChange = (event: React.SyntheticEvent, newValue: string) => {
     setSelectedType(newValue);
@@ -48,6 +53,7 @@ const CustomerView: React.FC<CustomerViewProps> = ({ addToCart }) => {
   const handleProductClick = (product: Product) => {
     setSelectedProduct(product);
     setOpen(true);
+    fetchReviews(product.name);
   };
 
   const handleClose = () => {
@@ -60,12 +66,45 @@ const CustomerView: React.FC<CustomerViewProps> = ({ addToCart }) => {
     toast.success(`${item.name} added to cart!`);
   };
 
+  const handleOpenReviewDialog = () => {
+    setOpenReviewDialog(true);
+  };
+
+  const handleCloseReviewDialog = () => {
+    setOpenReviewDialog(false);
+  };
+
+  const handleOpenViewReviewsDialog = () => {
+    setOpenViewReviewsDialog(true);
+  };
+
+  const handleCloseViewReviewsDialog = () => {
+    setOpenViewReviewsDialog(false);
+  };
+
+  const fetchReviews = async (productModelName: string) => {
+    try {
+      const response = await fetch(`http://localhost:8080/retailstore/GetProductReviews?ProductModelName=${productModelName}`, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
+      });
+  
+      if (response.ok) {
+        const reviews = await response.json(); // Await the JSON parsing
+        setReviews(reviews); // Set the parsed reviews in state
+      } else {
+        console.error('Failed to fetch reviews');
+      }
+    } catch (error) {
+      console.error('Error fetching reviews:', error);
+    }
+  };
 
   const filteredProducts = selectedType === "All" ? products : products.filter(product => product.type === selectedType);
 
   return (
     <>
-    <ToastContainer />
+      <ToastContainer />
       <Button
         component={RouterLink}
         to="/order-status"
@@ -238,6 +277,16 @@ const CustomerView: React.FC<CustomerViewProps> = ({ addToCart }) => {
 
               <Divider sx={{ mt: 4, mb: 2 }} />
 
+              <Button variant="contained" color="primary" sx={{ mt: 3, borderRadius: 1 }} onClick={handleOpenReviewDialog}>
+                        Write Review
+              </Button>
+
+              <Button variant="outlined" onClick={handleOpenViewReviewsDialog}>
+                View Reviews
+              </Button>
+
+              <Divider sx={{ mt: 4, mb: 2 }} />
+
               {/* Accessories Section */}
               <Typography variant="h6" sx={{ mb: 2 }}>Accessories</Typography>
               <Box sx={{ display: 'flex', overflowX: 'auto', gap: 2 }}>
@@ -269,6 +318,49 @@ const CustomerView: React.FC<CustomerViewProps> = ({ addToCart }) => {
                   </Card>
                 ))}
               </Box>
+
+              {/* Review Dialog */}
+      {selectedProduct && (
+        <ReviewComponent
+          open={openReviewDialog}
+          onClose={handleCloseReviewDialog}
+          productDetails={{
+            ProductId: selectedProduct.id,
+            ProductModelName: selectedProduct.name,
+            ProductCategory: selectedProduct.type? selectedProduct.type: ' ',
+            ProductPrice: selectedProduct.price,
+            StoreID: "SmartPortables of Chicago",
+            StoreZip: "60616",
+            StoreCity: "Chicago",
+            StoreState: "IL",
+            ProductOnSale: selectedProduct.onSale? selectedProduct.onSale: true,
+            ManufacturerName: selectedProduct.manufacturer ? selectedProduct.manufacturer: "Manufacturer",
+            ManufacturerRebate: !!selectedProduct.manufacturerRebate,
+          }}
+        />
+      )}
+
+      {/* View Reviews Dialog */}
+      <Dialog open={openViewReviewsDialog} onClose={handleCloseViewReviewsDialog}>
+        <DialogContent>
+          <Typography variant="h6">Reviews for {selectedProduct?.name}</Typography>
+          {reviews.length > 0 ? (
+            reviews.map((review, index) => (
+              <Box key={index} sx={{ mb: 2 }}>
+                <Rating value={review} readOnly />
+                <Typography variant="body2">{review}</Typography>
+                <Divider sx={{ my: 1 }} />
+              </Box>
+            ))
+          ) : (
+            <Typography>No reviews available.</Typography>
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseViewReviewsDialog}>Close</Button>
+        </DialogActions>
+      </Dialog>
+
             </>
           )}
         </DialogContent>

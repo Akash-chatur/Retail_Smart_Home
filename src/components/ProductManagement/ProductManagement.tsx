@@ -56,7 +56,7 @@ const ProductManagement: React.FC = () => {
   const handleOpen = (product: Product | null = null) => {
     setCurrentProduct(product || {
       id: 0, name: '', type: '', price: 0, description: '',
-      accessories: [], warrantyOptions: [], imageUrl: '',
+      accessories: [], warrantyOptions: [], imageUrl: '', category: ''
     });
     setOpen(true);
   };
