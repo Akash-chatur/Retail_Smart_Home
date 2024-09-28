@@ -10,14 +10,48 @@ const Signup: React.FC = () => {
   const { addUser } = useUser();
   const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // const handleSubmit = (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   if (addUser(username, password, 'Customer')) {
+  //     setError('');
+  //     alert('User registered successfully!');
+  //     //navigate('/products'); // Navigate to products page
+  //   } else {
+  //     setError('Username already exists');
+  //   }
+  // };
+
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
-    if (addUser(username, password, 'Customer')) {
-      setError('');
-      alert('User registered successfully!');
-      //navigate('/products'); // Navigate to products page
-    } else {
-      setError('Username already exists');
+
+    console.log("test username = "+username);
+    console.log("test password = "+password);
+    
+    try {
+      const response = await fetch('http://localhost:8082/MyServletProject/UserServlet', { 
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          username,
+          password,
+          role: 'Customer'
+        })
+      });
+      
+
+      const result = await response.json();
+      if (result.status === 'success') {
+        setError('');
+        alert(result.message);
+        // navigate('/products'); // Uncomment this to redirect
+      } else {
+        setError(result.message);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      setError('An error occurred during signup');
     }
   };
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useAuth } from '../../context/AuthContext';
 import { TextField, Button, Typography, Box, Alert } from '@mui/material';
+import { useAuth } from '../../context/AuthContext';
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState('');
@@ -8,13 +8,18 @@ const Login: React.FC = () => {
   const [error, setError] = useState('');
   const { login } = useAuth();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (login(username, password)) {
-      setError('');
-      //alert('Login successful!');
-    } else {
-      setError('Invalid username or password');
+    try {
+      const success = await login(username, password);
+      if (success) {
+        setError('');
+      } else {
+        setError('Invalid username or password');
+      }
+    } catch (err) {
+      console.error('Login error:', err);
+      setError('An error occurred during login');
     }
   };
 
@@ -52,16 +57,11 @@ const Login: React.FC = () => {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-      <Button
-        type="submit"
-        fullWidth
-        variant="contained"
-        sx={{ mt: 3, mb: 2 }}
-      >
-        Login
-      </Button>
-    </Box>
-  );
+      <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+          Login
+       </Button>
+     </Box>
+   );
 };
 
 export default Login;

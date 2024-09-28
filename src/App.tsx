@@ -31,7 +31,6 @@ export type CartItem = (Product | Accessory | WarrantyOption) & {
   quantity: number;
 };
 
-
 const AuthenticatedApp: React.FC = () => {
   const { user, logout } = useAuth();
   const [cart, setCart] = React.useState<CartItem[]>(() => {
@@ -40,12 +39,11 @@ const AuthenticatedApp: React.FC = () => {
   });
 
   const clearCart = () => setCart([]);
-  
+
   const addToCart = (item: Product | Accessory | WarrantyOption) => {
     const newItem = { ...item, quantity: 1 };
     setCart(prevCart => [...prevCart, newItem]);
-};
-  
+  };
 
   const removeFromCart = (itemId: number) => {
     setCart(cart.filter(item => item.id !== itemId));
@@ -58,7 +56,6 @@ const AuthenticatedApp: React.FC = () => {
       )
     );
   };
-  
 
   React.useEffect(() => {
     localStorage.setItem('cart', JSON.stringify(cart));
@@ -75,7 +72,6 @@ React.useEffect(() => {
     storedProducts = initialProducts;
   }
 }, []);
-
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -105,8 +101,7 @@ React.useEffect(() => {
             {user?.role === 'Customer' && (
               <>
                 <Route path="/products" element={<CustomerView addToCart={addToCart} />} />
-                <Route path="/cart" element={<ShoppingCart cart={cart} removeFromCart={removeFromCart} updateCartQuantity={updateCartQuantity} />}/>
-
+                <Route path="/cart" element={<ShoppingCart cart={cart} removeFromCart={removeFromCart} updateCartQuantity={updateCartQuantity} />} />
                 <Route path="/order" element={<OrderForm clearCart={clearCart} cart={cart} />} />
                 <Route path="/order-status" element={<OrderStatus />} />
               </>

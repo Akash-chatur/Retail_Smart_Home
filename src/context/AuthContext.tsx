@@ -8,8 +8,8 @@ type User = {
 
 type AuthContextType = {
   user: User | null;
-  login: (username: string, password: string) => boolean;
-  signup: (username: string, password: string) => boolean;
+  login: (username: string, password: string) => Promise<boolean>;
+  signup: (username: string, password: string) => Promise<boolean>;
   logout: () => void;
 };
 
@@ -22,48 +22,43 @@ type AuthProviderProps = {
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
 
-  const login = (username: string, password: string): boolean => {
-    const hardcodedUsers: User[] = [
-      { id: 1, username: 'Store Manager', role: 'Store Manager' },
-      { id: 2, username: 'Sales Man', role: 'Salesman' }
-    ];
-  
-    const hardcodedPasswords: { [key: string]: string } = {
-      storemanager: 'password123',
-      salesman: 'password123'
-    };
-  
-    const foundUser = hardcodedUsers.find(u => u.username === username);
-    
-    const formattedUsername = username.replace(/\s+/g, '').toLowerCase();
-    if (foundUser && hardcodedPasswords[formattedUsername] === password) {
-      setUser(foundUser);
-      return true;
-    }
-  
-    const customers = JSON.parse(localStorage.getItem('users') || '[]');
-    const customer = customers.find((c: { username: string, password: string }) => 
-      c.username === username && c.password === password
-    );
+  const login = async (username: string, password: string): Promise<boolean> => {
+    try {
+      const response = await fetch('http://localhost:8082/MyServletProject/UserServlet', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password, action: 'login' })
+      });
 
-    if (customer) {
-      setUser({ id: customer.id, username: customer.username, role: 'Customer' });
-      return true;
+      if (response.ok) {
+        const result = await response.json();
+        if (result.status === 'success') {
+          setUser({ id: Date.now(), username, role: result.role || 'Customer' });
+          return true;
+        }
+      }
+    } catch (error) {
+      console.error('Login error:', error);
     }
-  
     return false;
   };
-  
-  const signup = (username: string, password: string): boolean => {
-    const customers = JSON.parse(localStorage.getItem('users') || '[]');
-    if (customers.some((c: { username: string }) => c.username === username)) {
-      return false; // Username already exists
+
+  const signup = async (username: string, password: string): Promise<boolean> => {
+    try {
+      const response = await fetch('http://localhost:8082/MyServletProject/UserServlet', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password, role: 'Customer' })
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        return result.status === 'success';
+      }
+    } catch (error) {
+      console.error('Signup error:', error);
     }
-    const newUser = { id: Date.now(), username, password };
-    customers.push(newUser);
-    localStorage.setItem('users', JSON.stringify(customers));
-    setUser({ id: newUser.id, username, role: 'Customer' });
-    return true;
+    return false;
   };
 
   const logout = () => {
