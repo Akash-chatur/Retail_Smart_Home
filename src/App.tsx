@@ -15,6 +15,7 @@ import OrderStatus from './components/OrderPlacement/OrderStatus';
 import ManageUsers from './components/UserManagement/ManageUsers';
 import { Accessory, Product, WarrantyOption } from './types/Product';
 import initialProducts from './data/products.json';
+import Trending from './components/Trending/Trending';
 
 const theme = createTheme({
   palette: {
@@ -81,7 +82,10 @@ React.useEffect(() => {
             SmartHome
           </Typography>
           {user?.role === 'Customer' && (
+            <>
+            <Button color="inherit" component={Link} to="/trending">Trending</Button>
             <Button color="inherit" component={Link} to="/cart">Cart ({cart.length})</Button>
+            </>
           )}
           <Button color="inherit" onClick={logout}>Logout</Button>
         </Toolbar>
@@ -100,6 +104,7 @@ React.useEffect(() => {
             )}
             {user?.role === 'Customer' && (
               <>
+                <Route path="/trending" element={<Trending />} /> {/* Add this line */}
                 <Route path="/products" element={<CustomerView addToCart={addToCart} />} />
                 <Route path="/cart" element={<ShoppingCart cart={cart} removeFromCart={removeFromCart} updateCartQuantity={updateCartQuantity} />} />
                 <Route path="/order" element={<OrderForm clearCart={clearCart} cart={cart} />} />
@@ -108,6 +113,7 @@ React.useEffect(() => {
             )}
             <Route path="*" element={<Navigate to={user?.role === 'Customer' ? "/products" : user?.role === 'Salesman' ? "/manage-users" : "/manage-products"} />} />
           </Routes>
+
         </Box>
       </Container>
     </Box>
