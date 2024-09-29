@@ -28,3 +28,24 @@ export interface Product {
   onSale?: boolean; // New field
   manufacturer?: string; // New field
 }
+
+export interface Review {
+  ManufacturerName: string;
+  ManufacturerRebate: boolean;
+  ProductCategory: string;
+  ProductModelName: string;
+  ProductOnSale: boolean;
+  ProductPrice: number;
+  ReviewDate: string;
+  ReviewRating: number; // Assuming this is a number based on your API response
+  ReviewText: string;
+  StoreCity: string;
+  StoreID: string;
+  StoreState: string;
+  StoreZip: string;
+  UserAge: number;
+  UserGender: string;
+  UserID: string;
+  UserOccupation: string;
+  _id: { date: string };
+}

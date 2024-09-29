@@ -8,7 +8,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { Link as RouterLink } from 'react-router-dom';
-import { Product, Accessory, WarrantyOption } from '../../types/Product';
+import { Product, Accessory, WarrantyOption, Review } from '../../types/Product';
 import initialProducts from '../../data/products.json'; // Import JSON data
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -41,7 +41,7 @@ const CustomerView: React.FC<CustomerViewProps> = ({ addToCart }) => {
   const [selectedType, setSelectedType] = useState<string>("All");
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [open, setOpen] = useState(false);
-  const [reviews, setReviews] = useState([]);
+  const [reviews, setReviews] = useState<Review[]>([]);
   const [openReviewDialog, setOpenReviewDialog] = useState(true);
   const [openViewReviewsDialog, setOpenViewReviewsDialog] = useState(false);
 
@@ -84,14 +84,15 @@ const CustomerView: React.FC<CustomerViewProps> = ({ addToCart }) => {
 
   const fetchReviews = async (productModelName: string) => {
     try {
-      const response = await fetch(`http://localhost:8080/retailstore/GetProductReviews?ProductModelName=${productModelName}`, {
+      const response = await fetch(`http://localhost:8082/MyServletProject/RatingServlet?ProductModelName=${productModelName}`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' }
       });
-  
+
       if (response.ok) {
-        const reviews = await response.json(); // Await the JSON parsing
-        setReviews(reviews); // Set the parsed reviews in state
+        const reviews = await response.json();
+        console.log("reviews response = ", reviews);
+        setReviews(reviews);
       } else {
         console.error('Failed to fetch reviews');
       }
@@ -278,7 +279,7 @@ const CustomerView: React.FC<CustomerViewProps> = ({ addToCart }) => {
               <Divider sx={{ mt: 4, mb: 2 }} />
 
               <Button variant="contained" color="primary" sx={{ mt: 3, borderRadius: 1 }} onClick={handleOpenReviewDialog}>
-                        Write Review
+                Write Review
               </Button>
 
               <Button variant="outlined" onClick={handleOpenViewReviewsDialog}>
@@ -320,46 +321,47 @@ const CustomerView: React.FC<CustomerViewProps> = ({ addToCart }) => {
               </Box>
 
               {/* Review Dialog */}
-      {selectedProduct && (
-        <ReviewComponent
-          open={openReviewDialog}
-          onClose={handleCloseReviewDialog}
-          productDetails={{
-            ProductId: selectedProduct.id,
-            ProductModelName: selectedProduct.name,
-            ProductCategory: selectedProduct.type? selectedProduct.type: ' ',
-            ProductPrice: selectedProduct.price,
-            StoreID: "SmartPortables of Chicago",
-            StoreZip: "60616",
-            StoreCity: "Chicago",
-            StoreState: "IL",
-            ProductOnSale: selectedProduct.onSale? selectedProduct.onSale: true,
-            ManufacturerName: selectedProduct.manufacturer ? selectedProduct.manufacturer: "Manufacturer",
-            ManufacturerRebate: !!selectedProduct.manufacturerRebate,
-          }}
-        />
-      )}
+              {selectedProduct && (
+                <ReviewComponent
+                  open={openReviewDialog}
+                  onClose={handleCloseReviewDialog}
+                  productDetails={{
+                    ProductId: selectedProduct.id,
+                    ProductModelName: selectedProduct.name,
+                    ProductCategory: selectedProduct.type ? selectedProduct.type : ' ',
+                    ProductPrice: selectedProduct.price,
+                    StoreID: "SmartPortables of Chicago",
+                    StoreZip: "60616",
+                    StoreCity: "Chicago",
+                    StoreState: "IL",
+                    ProductOnSale: selectedProduct.onSale ? selectedProduct.onSale : true,
+                    ManufacturerName: selectedProduct.manufacturer ? selectedProduct.manufacturer : "Manufacturer",
+                    ManufacturerRebate: !!selectedProduct.manufacturerRebate,
+                  }}
+                />
+              )}
 
-      {/* View Reviews Dialog */}
-      <Dialog open={openViewReviewsDialog} onClose={handleCloseViewReviewsDialog}>
-        <DialogContent>
-          <Typography variant="h6">Reviews for {selectedProduct?.name}</Typography>
-          {reviews.length > 0 ? (
-            reviews.map((review, index) => (
-              <Box key={index} sx={{ mb: 2 }}>
-                <Rating value={review} readOnly />
-                <Typography variant="body2">{review}</Typography>
-                <Divider sx={{ my: 1 }} />
-              </Box>
-            ))
-          ) : (
-            <Typography>No reviews available.</Typography>
-          )}
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseViewReviewsDialog}>Close</Button>
-        </DialogActions>
-      </Dialog>
+              {/* View Reviews Dialog */}
+              <Dialog open={openViewReviewsDialog} onClose={handleCloseViewReviewsDialog}>
+                <DialogContent>
+                  <Typography variant="h6">Reviews for {selectedProduct?.name}</Typography>
+                  {reviews.length > 0 ? (
+                    reviews.map((review, index) => (
+                      <Box key={index} sx={{ mb: 2 }}>
+                        <Rating value={review.ReviewRating} readOnly /> {/* Use ReviewRating here */}
+                        <Typography variant="body2">{review.ReviewText}</Typography> {/* Display the review text */}
+                        <Divider sx={{ my: 1 }} />
+                      </Box>
+                    ))
+                  ) : (
+                    <Typography>No reviews available.</Typography>
+                  )}
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={handleCloseViewReviewsDialog}>Close</Button>
+                </DialogActions>
+              </Dialog>
+
 
             </>
           )}
