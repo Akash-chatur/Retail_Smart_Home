@@ -63,9 +63,15 @@ const OrderForm: React.FC<OrderFormProps> = ({ clearCart, cart }) => {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             userId: user.id,
+            userName: personalInfo.name,  // User Name
             confirmation,
             deliveryDate: deliveryDate.toDateString(),
             status: 'Processing',
+            zipcode: personalInfo.zip,  // Zipcode
+            productId: cart[0].id,  // Product ID
+            productName: cart[0].name,  // Product Name
+            productType: cart[0].price.toString(),  // Product Type
+            productDescription: cart[0].name,  // Product Description
           }),
         });
 
