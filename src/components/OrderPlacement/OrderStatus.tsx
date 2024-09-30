@@ -24,8 +24,9 @@ const OrderStatus: React.FC = () => {
       });
 
       const result = await response.json();
+      console.log("cancel result = ",result)
       
-      if (result.status === 'success') {
+      if (result === 'Order canceled successfully.') {
           setCanceledOrders(new Set(canceledOrders).add(orderId));
       } else {
           console.error('Failed to cancel order:', result.message);
@@ -49,7 +50,11 @@ const OrderStatus: React.FC = () => {
       const result = await response.json();
       
       if (result.status === 'success') {
-          console.log('Order deleted successfully');
+          setCanceledOrders(prev => {
+              const newCanceledOrders = new Set(prev);
+              newCanceledOrders.delete(orderId); // Remove the order from canceled orders
+              return newCanceledOrders;
+          });
           refreshOrders(); // Refresh the orders after deletion
       } else {
           console.error('Failed to delete order:', result.message);

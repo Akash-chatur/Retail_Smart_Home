@@ -42,7 +42,7 @@ const CustomerView: React.FC<CustomerViewProps> = ({ addToCart }) => {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [open, setOpen] = useState(false);
   const [reviews, setReviews] = useState<Review[]>([]);
-  const [openReviewDialog, setOpenReviewDialog] = useState(true);
+  const [openReviewDialog, setOpenReviewDialog] = useState(false);
   const [openViewReviewsDialog, setOpenViewReviewsDialog] = useState(false);
 
   const handleTypeChange = (event: React.SyntheticEvent, newValue: string) => {
@@ -253,40 +253,62 @@ const CustomerView: React.FC<CustomerViewProps> = ({ addToCart }) => {
               </Carousel>
 
               <Typography variant="h4" gutterBottom sx={{ fontWeight: 'bold', textAlign: 'center', mt: 2 }}>
-                {selectedProduct.name}
-              </Typography>
+  {selectedProduct.name}
+</Typography>
 
-              <Typography variant="body1" sx={{ fontSize: '1.1rem', mb: 3, textAlign: 'justify' }}>
-                {selectedProduct.description}
-              </Typography>
+<Typography variant="body1" sx={{ fontSize: '1.1rem', mb: 3, textAlign: 'justify' }}>
+  {selectedProduct.description}
+</Typography>
 
-              <Divider sx={{ mb: 3 }} />
+<Divider sx={{ mb: 3 }} />
 
-              <Typography variant="h5" color="primary" sx={{ fontWeight: 'bold', mb: 2 }}>
-                Price: ${selectedProduct.price.toFixed(2)}
-              </Typography>
+<Typography variant="h5" color="primary" sx={{ fontWeight: 'bold', mb: 2 }}>
+  Price: ${selectedProduct.price.toFixed(2)}
+</Typography>
 
-              {selectedProduct.manufacturerRebate && (
-                <Typography variant="body2" color="secondary">
-                  {((selectedProduct.manufacturerRebate / selectedProduct.price) * 100).toFixed(0)}% cashback
-                </Typography>
-              )}
+{selectedProduct.manufacturerRebate && (
+  <Typography variant="body2" color="secondary" sx={{ mb: 3 }}>
+    {((selectedProduct.manufacturerRebate / selectedProduct.price) * 100).toFixed(0)}% cashback
+  </Typography>
+)}
 
-              <Button variant="contained" color="primary" onClick={() => handleAddToCart(selectedProduct)} sx={{ mt: 3, borderRadius: 3 }} fullWidth>
-                Add to Cart
-              </Button>
+<Button
+  variant="contained"
+  color="primary"
+  onClick={() => handleAddToCart(selectedProduct)}
+  sx={{ mt: 2, borderRadius: 3, '&:hover': { backgroundColor: '#1976d2' } }}
+  fullWidth
+>
+  Add to Cart
+</Button>
 
-              <Divider sx={{ mt: 4, mb: 2 }} />
+<Divider sx={{ mt: 4, mb: 2 }} />
 
-              <Button variant="contained" color="primary" sx={{ mt: 3, borderRadius: 1 }} onClick={handleOpenReviewDialog}>
-                Write Review
-              </Button>
+<Typography variant="h6" sx={{ textAlign: 'center', mb: 2 }}>
+  Manage Your Experience
+</Typography>
 
-              <Button variant="outlined" onClick={handleOpenViewReviewsDialog}>
-                View Reviews
-              </Button>
+<Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 3 }}>
+  <Button
+    variant="contained"
+    color="primary"
+    onClick={handleOpenReviewDialog}
+    sx={{ borderRadius: 1, flex: 1, mr: 1, '&:hover': { backgroundColor: '#1976d2' } }}
+  >
+    Write Review
+  </Button>
 
-              <Divider sx={{ mt: 4, mb: 2 }} />
+  <Button
+    variant="outlined"
+    onClick={handleOpenViewReviewsDialog}
+    sx={{ borderRadius: 1, flex: 1, ml: 1, '&:hover': { borderColor: '#1976d2', color: '#1976d2' } }}
+  >
+    View Reviews
+  </Button>
+</Box>
+
+<Divider sx={{ mt: 4, mb: 2 }} />
+
 
               {/* Accessories Section */}
               <Typography variant="h6" sx={{ mb: 2 }}>Accessories</Typography>
