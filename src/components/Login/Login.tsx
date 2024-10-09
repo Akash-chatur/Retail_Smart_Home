@@ -26,7 +26,7 @@ const Login: React.FC = () => {
   return (
     <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
       <Typography component="h2" variant="h5" align="center" gutterBottom>
-        Login
+        Login component
       </Typography>
       {error && (
         <Alert severity="error" sx={{ mb: 2 }}>
