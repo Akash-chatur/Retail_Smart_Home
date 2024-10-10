@@ -1,15 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Grid, Card, CardContent, CardMedia, Typography, Button, Tabs, Tab, Dialog,
   DialogContent, IconButton, Box, Chip, Divider, Rating, Stack, Slide,
-  DialogActions
+  DialogActions, CircularProgress
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { Link as RouterLink } from 'react-router-dom';
 import { Product, Accessory, WarrantyOption, Review } from '../../types/Product';
-import initialProducts from '../../data/products.json'; // Import JSON data
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ReviewComponent from '../CustomerReview/ReviewComponent';
@@ -28,22 +27,37 @@ const productTypes = [
 ];
 
 const CustomerView: React.FC<CustomerViewProps> = ({ addToCart }) => {
-  const [products, setProducts] = useState<Product[]>(() => {
-    const storedProducts = localStorage.getItem('products');
-    if (storedProducts) {
-      return JSON.parse(storedProducts);
-    } else {
-      localStorage.setItem('products', JSON.stringify(initialProducts));
-      return initialProducts;
-    }
-  });
-
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [selectedType, setSelectedType] = useState<string>("All");
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [open, setOpen] = useState(false);
   const [reviews, setReviews] = useState<Review[]>([]);
   const [openReviewDialog, setOpenReviewDialog] = useState(false);
-  const [openViewReviewsDialog, setOpenViewReviewsDialog] = useState(false);
+  const [openViewReviewsDialog, setOpenViewReviewsDialog] = useState(false);  
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const fetchProducts = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch('http://localhost:8082/MyServletProject/ProductServlet');
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      console.log("data fetched = ",data)
+      setProducts(data);
+      setLoading(false);
+    } catch (error) {
+      console.error('Error fetching products:', error);
+      setError('Failed to load products. Please try again later.');
+      setLoading(false);
+    }
+  };
 
   const handleTypeChange = (event: React.SyntheticEvent, newValue: string) => {
     setSelectedType(newValue);
@@ -91,7 +105,6 @@ const CustomerView: React.FC<CustomerViewProps> = ({ addToCart }) => {
 
       if (response.ok) {
         const reviews = await response.json();
-        console.log("reviews response = ", reviews);
         setReviews(reviews);
       } else {
         console.error('Failed to fetch reviews');
@@ -102,6 +115,14 @@ const CustomerView: React.FC<CustomerViewProps> = ({ addToCart }) => {
   };
 
   const filteredProducts = selectedType === "All" ? products : products.filter(product => product.type === selectedType);
+
+  if (loading) {
+    return <CircularProgress />;
+  }
+
+  if (error) {
+    return <Typography color="error">{error}</Typography>;
+  }
 
   return (
     <>
@@ -179,8 +200,7 @@ const CustomerView: React.FC<CustomerViewProps> = ({ addToCart }) => {
                     ${product.price.toFixed(2)}
                   </Typography>
                 )}
-
-                {product.manufacturerRebate && (
+                {product.manufacturerRebate !== undefined && product.manufacturerRebate > 0 && (
                   <Typography variant="body2" color="secondary" sx={{ mt: 1 }}>
                     {((product.manufacturerRebate / product.price) * 100).toFixed(0)}% cashback
                   </Typography>
