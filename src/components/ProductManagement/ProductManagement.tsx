@@ -50,8 +50,26 @@ const ProductManagement: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    localStorage.setItem('products', JSON.stringify(products));
-  }, [products]);
+    fetchProducts();
+  }, []);
+
+  const fetchProducts = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch('http://localhost:8082/MyServletProject/ProductServlet');
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      console.log("products data = ",data);
+      setProducts(data);
+      setLoading(false);
+    } catch (error) {
+      console.error('Error fetching products:', error);
+      setLoading(false);
+    }
+  };
+
 
   const handleOpen = (product: Product | null = null) => {
     setCurrentProduct(product || {
