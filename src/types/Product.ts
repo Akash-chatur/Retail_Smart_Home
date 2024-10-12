@@ -27,6 +27,7 @@ export interface Product {
   category?: string; // New field
   onSale?: boolean; // New field
   manufacturer?: string; // New field
+  quantity?: number;
 }
 
 export interface Review {
@@ -48,4 +49,17 @@ export interface Review {
   UserID: string;
   UserOccupation: string;
   _id: { date: string };
+}
+
+export interface SalesDataItem {
+  id: number;
+  name: string;
+  price: number;
+  itemsSold: number;
+  totalSales: number;
+}
+
+export interface DailySalesItem {
+  date: string;
+  totalSales: number;
 }

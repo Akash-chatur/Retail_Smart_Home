@@ -16,6 +16,8 @@ import ManageUsers from './components/UserManagement/ManageUsers';
 import { Accessory, Product, WarrantyOption } from './types/Product';
 import initialProducts from './data/products.json';
 import Trending from './components/Trending/Trending';
+import Inventory from './components/Inventory/Inventory';
+import SalesReport from './components/SalesReport/SalesReport';
 
 const theme = createTheme({
   palette: {
@@ -87,6 +89,12 @@ React.useEffect(() => {
             <Button color="inherit" component={Link} to="/cart">Cart ({cart.length})</Button>
             </>
           )}
+          {user?.role === 'Store Manager' && (
+            <>
+              <Button color="inherit" component={Link} to="/inventory">Inventory</Button>
+              <Button color="inherit" component={Link} to="/sales-report">Sales Report</Button>
+            </>
+          )}
           <Button color="inherit" onClick={logout}>Logout</Button>
         </Toolbar>
       </AppBar>
@@ -97,7 +105,11 @@ React.useEffect(() => {
           </Typography>
           <Routes>
             {user?.role === 'Store Manager' && (
-              <Route path="/manage-products" element={<ProductManagement />} />
+              <>
+                <Route path="/manage-products" element={<ProductManagement />} />
+                <Route path="/sales-report" element={<SalesReport />} />
+                <Route path="/inventory" element={<Inventory />} />
+              </>
             )}
             {user?.role === 'Salesman' && (
               <Route path="/manage-users" element={<ManageUsers />} />
