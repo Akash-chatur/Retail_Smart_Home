@@ -56,7 +56,7 @@ const ProductManagement: React.FC = () => {
     const fetchProducts = async () => {
       try {
         setLoading(true);
-        const response = await fetch('http://localhost:8082/MyServletProject/ProductServlet');
+        const response = await fetch(`http://localhost:8082/MyServletProject/ProductServlet?action=search&keyword=`);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }

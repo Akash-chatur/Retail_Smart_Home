@@ -2,9 +2,12 @@ import React, { useState, useEffect } from 'react';
 import {
   Grid, Card, CardContent, CardMedia, Typography, Button, Tabs, Tab, Dialog,
   DialogContent, IconButton, Box, Chip, Divider, Rating, Stack, Slide,
-  DialogActions, CircularProgress
+  DialogActions, CircularProgress,
+  InputAdornment,
+  TextField
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import SearchIcon from '@mui/icons-material/Search';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { Link as RouterLink } from 'react-router-dom';
@@ -12,6 +15,7 @@ import { Product, Accessory, WarrantyOption, Review } from '../../types/Product'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ReviewComponent from '../CustomerReview/ReviewComponent';
+import Autocomplete from '@mui/material/Autocomplete';
 
 interface CustomerViewProps {
   addToCart: (item: Product | Accessory | WarrantyOption) => void;
@@ -35,21 +39,86 @@ const CustomerView: React.FC<CustomerViewProps> = ({ addToCart }) => {
   const [open, setOpen] = useState(false);
   const [reviews, setReviews] = useState<Review[]>([]);
   const [openReviewDialog, setOpenReviewDialog] = useState(false);
-  const [openViewReviewsDialog, setOpenViewReviewsDialog] = useState(false);  
+  const [openViewReviewsDialog, setOpenViewReviewsDialog] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [suggestions, setSuggestions] = useState<string[]>([]);
 
   useEffect(() => {
     fetchProducts();
   }, []);
 
+  // Function to fetch product suggestions from ProductServlet based on the search term
+  const fetchProductSuggestions = async (search: string) => {
+    try {
+      const response = await fetch(`http://localhost:8082/MyServletProject/ProductServlet?action=suggestions&keyword=${search}`);
+      const data = await response.json();
+      // Assuming that the API returns an array of product names
+      setSuggestions(data.map((product: Product) => product.name));
+    } catch (error) {
+      console.error('Error fetching product suggestions:', error);
+    }
+  };
+
+  // Fetch products based on the search term when it changes
+  useEffect(() => {
+    const fetchProductsBySearch = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch(`http://localhost:8082/MyServletProject/ProductServlet?action=search&keyword=${searchTerm}`);
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        setProducts(data);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching products:', error);
+        setError('Failed to load products. Please try again later.');
+        setLoading(false);
+      }
+    };
+
+    if (searchTerm) {
+      fetchProductsBySearch();
+    } else {
+      fetchProducts(); // If searchTerm is empty, fetch all products
+    }
+  }, [searchTerm]);
+
+
+  // Fetch suggestions based on the search term
+  useEffect(() => {
+    const fetchSuggestions = async () => {
+      if (searchTerm.trim()) {
+        try {
+          const response = await fetch(`http://localhost:8082/MyServletProject/ProductServlet?action=suggestions&keyword=${searchTerm}`);
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          const data = await response.json();
+          setSuggestions(data); // Set suggestions with matching product names
+        } catch (error) {
+          console.error('Error fetching suggestions:', error);
+        }
+      } else {
+        setSuggestions([]); // Clear suggestions if searchTerm is empty
+      }
+    };
+
+    fetchSuggestions();
+  }, [searchTerm]);
+
+
+  // Fetch all products if no search term is specified
   const fetchProducts = async () => {
     try {
       setLoading(true);
-      const response = await fetch('http://localhost:8082/MyServletProject/ProductServlet');
+      const response = await fetch(`http://localhost:8082/MyServletProject/ProductServlet?action=search&keyword=`);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
       const data = await response.json();
-      console.log("data fetched = ",data)
+      console.log("data fetched = ", data);
       setProducts(data);
       setLoading(false);
     } catch (error) {
@@ -62,6 +131,12 @@ const CustomerView: React.FC<CustomerViewProps> = ({ addToCart }) => {
   const handleTypeChange = (event: React.SyntheticEvent, newValue: string) => {
     setSelectedType(newValue);
     setSelectedProduct(null);
+  };
+
+  const handleSearchChange = (event: React.SyntheticEvent, newValue: string) => {
+    console.log("newValue = ",newValue)
+    setSearchTerm(newValue);
+    fetchProductSuggestions(newValue);
   };
 
   const handleProductClick = (product: Product) => {
@@ -115,6 +190,7 @@ const CustomerView: React.FC<CustomerViewProps> = ({ addToCart }) => {
   };
 
   const filteredProducts = selectedType === "All" ? products : products.filter(product => product.type === selectedType);
+  console.log("filtered products = ", filteredProducts)
 
   if (loading) {
     return <CircularProgress />;
@@ -136,6 +212,38 @@ const CustomerView: React.FC<CustomerViewProps> = ({ addToCart }) => {
       >
         View Order Status
       </Button>
+
+      {/* Search Bar */}
+      <Autocomplete
+  options={suggestions}
+  freeSolo
+  inputValue={searchTerm}
+  onInputChange={(event, newValue) => {
+    setSearchTerm(newValue);
+    handleSearchChange(event, newValue);
+  }}
+  renderInput={(params) => (
+    <TextField
+      {...params}
+      variant="outlined"
+      placeholder="Search products..."
+      fullWidth
+      InputProps={{
+        ...params.InputProps,
+        startAdornment: (
+          <InputAdornment position="start">
+            <SearchIcon />
+          </InputAdornment>
+        ),
+      }}
+    />
+  )}
+  renderOption={(props, option) => (
+    <Box component="li" {...props}>
+      {option}
+    </Box>
+  )}
+/>
 
       <Tabs
         value={selectedType}
@@ -273,61 +381,61 @@ const CustomerView: React.FC<CustomerViewProps> = ({ addToCart }) => {
               </Carousel>
 
               <Typography variant="h4" gutterBottom sx={{ fontWeight: 'bold', textAlign: 'center', mt: 2 }}>
-  {selectedProduct.name}
-</Typography>
+                {selectedProduct.name}
+              </Typography>
 
-<Typography variant="body1" sx={{ fontSize: '1.1rem', mb: 3, textAlign: 'justify' }}>
-  {selectedProduct.description}
-</Typography>
+              <Typography variant="body1" sx={{ fontSize: '1.1rem', mb: 3, textAlign: 'justify' }}>
+                {selectedProduct.description}
+              </Typography>
 
-<Divider sx={{ mb: 3 }} />
+              <Divider sx={{ mb: 3 }} />
 
-<Typography variant="h5" color="primary" sx={{ fontWeight: 'bold', mb: 2 }}>
-  Price: ${selectedProduct.price.toFixed(2)}
-</Typography>
+              <Typography variant="h5" color="primary" sx={{ fontWeight: 'bold', mb: 2 }}>
+                Price: ${selectedProduct.price.toFixed(2)}
+              </Typography>
 
-{selectedProduct.manufacturerRebate && (
-  <Typography variant="body2" color="secondary" sx={{ mb: 3 }}>
-    {((selectedProduct.manufacturerRebate / selectedProduct.price) * 100).toFixed(0)}% cashback
-  </Typography>
-)}
+              {selectedProduct.manufacturerRebate && (
+                <Typography variant="body2" color="secondary" sx={{ mb: 3 }}>
+                  {((selectedProduct.manufacturerRebate / selectedProduct.price) * 100).toFixed(0)}% cashback
+                </Typography>
+              )}
 
-<Button
-  variant="contained"
-  color="primary"
-  onClick={() => handleAddToCart(selectedProduct)}
-  sx={{ mt: 2, borderRadius: 3, '&:hover': { backgroundColor: '#1976d2' } }}
-  fullWidth
->
-  Add to Cart
-</Button>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => handleAddToCart(selectedProduct)}
+                sx={{ mt: 2, borderRadius: 3, '&:hover': { backgroundColor: '#1976d2' } }}
+                fullWidth
+              >
+                Add to Cart
+              </Button>
 
-<Divider sx={{ mt: 4, mb: 2 }} />
+              <Divider sx={{ mt: 4, mb: 2 }} />
 
-<Typography variant="h6" sx={{ textAlign: 'center', mb: 2 }}>
-  Manage Your Experience
-</Typography>
+              <Typography variant="h6" sx={{ textAlign: 'center', mb: 2 }}>
+                Manage Your Experience
+              </Typography>
 
-<Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 3 }}>
-  <Button
-    variant="contained"
-    color="primary"
-    onClick={handleOpenReviewDialog}
-    sx={{ borderRadius: 1, flex: 1, mr: 1, '&:hover': { backgroundColor: '#1976d2' } }}
-  >
-    Write Review
-  </Button>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 3 }}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleOpenReviewDialog}
+                  sx={{ borderRadius: 1, flex: 1, mr: 1, '&:hover': { backgroundColor: '#1976d2' } }}
+                >
+                  Write Review
+                </Button>
 
-  <Button
-    variant="outlined"
-    onClick={handleOpenViewReviewsDialog}
-    sx={{ borderRadius: 1, flex: 1, ml: 1, '&:hover': { borderColor: '#1976d2', color: '#1976d2' } }}
-  >
-    View Reviews
-  </Button>
-</Box>
+                <Button
+                  variant="outlined"
+                  onClick={handleOpenViewReviewsDialog}
+                  sx={{ borderRadius: 1, flex: 1, ml: 1, '&:hover': { borderColor: '#1976d2', color: '#1976d2' } }}
+                >
+                  View Reviews
+                </Button>
+              </Box>
 
-<Divider sx={{ mt: 4, mb: 2 }} />
+              <Divider sx={{ mt: 4, mb: 2 }} />
 
 
               {/* Accessories Section */}
