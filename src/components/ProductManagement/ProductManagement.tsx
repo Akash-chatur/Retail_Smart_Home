@@ -86,27 +86,90 @@ const ProductManagement: React.FC = () => {
     setNewWarranty({ id: 0, name: '', duration: '', price: 0 });
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     setLoading(true);
-    setTimeout(() => {
-      if (currentProduct) {
-        if (currentProduct.id === 0) {
-          setProducts([...products, { ...currentProduct, id: Date.now() }]);
-          showSnackbar('Product added successfully', 'success');
-        } else {
-          setProducts(products.map(p => p.id === currentProduct.id ? currentProduct : p));
-          showSnackbar('Product updated successfully', 'success');
-        }
-      }
-      handleClose();
-      setLoading(false);
-    }, 1000);
-  };
 
-  const handleDelete = (id: number) => {
-    setProducts(products.filter(p => p.id !== id));
-    showSnackbar('Product deleted successfully', 'success');
-  };
+    try {
+        if (currentProduct) {
+            const productData = {
+                ...currentProduct,
+                quantity: 15, // Default quantity set to 15
+            };
+
+            // Check if it's a new product or updating an existing product
+            if (!currentProduct.id) {
+                // New product, send POST request to the backend
+                const response = await fetch(`http://localhost:8082/MyServletProject/ProductServlet`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(productData),
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to add product');
+                }
+
+                // After successfully adding to the backend, update the UI with the returned product
+                const newProduct = await response.json();
+                setProducts(prevProducts => [...prevProducts, newProduct]);
+                showSnackbar('Product added successfully', 'success');
+            } else {
+                // Updating an existing product, send POST request
+                const response = await fetch(`http://localhost:8082/MyServletProject/ProductServlet`, {
+                    method: 'POST', // Ensure you're using POST
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(productData),
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to update product');
+                }
+
+                // Update the UI with the returned product
+                const updatedProduct = await response.json();
+                setProducts(prevProducts => prevProducts.map(p => p.id === updatedProduct.id ? updatedProduct : p));
+                showSnackbar('Product updated successfully', 'success');
+            }
+
+            handleClose(); // Close the modal or form after saving
+        }
+    } catch (error) {
+        console.error('Error saving product:', error);
+        showSnackbar('Failed to save product', 'error');
+    } finally {
+        setLoading(false);
+    }
+};
+  
+
+  const handleDelete = async (id: number) => {
+    setLoading(true);
+    try {
+        const response = await fetch(`http://localhost:8082/MyServletProject/ProductServlet`, {
+            method: 'POST',  // Change method to POST
+            headers: { 'Content-Type': 'application/json' },
+            mode: 'cors',
+            body: JSON.stringify({ action: 'delete', id })  // Include the action and id in the body
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to delete product');
+        }
+
+        // If the delete request was successful, remove the product from the state
+        setProducts(products.filter(p => p.id !== id));
+        showSnackbar('Product deleted successfully', 'success');
+    } catch (error) {
+        console.error('Error deleting product:', error);
+        showSnackbar('Failed to delete product', 'error');
+    } finally {
+        setLoading(false);
+    }
+};
 
   const handleAddAccessory = () => {
     if (currentProduct && newAccessory.name && newAccessory.price) {

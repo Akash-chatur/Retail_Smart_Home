@@ -134,12 +134,13 @@ const CustomerView: React.FC<CustomerViewProps> = ({ addToCart }) => {
   };
 
   const handleSearchChange = (event: React.SyntheticEvent, newValue: string) => {
-    console.log("newValue = ",newValue)
+    console.log("newValue = ", newValue)
     setSearchTerm(newValue);
     fetchProductSuggestions(newValue);
   };
 
   const handleProductClick = (product: Product) => {
+    console.log("product = ",product)
     setSelectedProduct(product);
     setOpen(true);
     fetchReviews(product.name);
@@ -215,35 +216,35 @@ const CustomerView: React.FC<CustomerViewProps> = ({ addToCart }) => {
 
       {/* Search Bar */}
       <Autocomplete
-  options={suggestions}
-  freeSolo
-  inputValue={searchTerm}
-  onInputChange={(event, newValue) => {
-    setSearchTerm(newValue);
-    handleSearchChange(event, newValue);
-  }}
-  renderInput={(params) => (
-    <TextField
-      {...params}
-      variant="outlined"
-      placeholder="Search products..."
-      fullWidth
-      InputProps={{
-        ...params.InputProps,
-        startAdornment: (
-          <InputAdornment position="start">
-            <SearchIcon />
-          </InputAdornment>
-        ),
-      }}
-    />
-  )}
-  renderOption={(props, option) => (
-    <Box component="li" {...props}>
-      {option}
-    </Box>
-  )}
-/>
+        options={suggestions}
+        freeSolo
+        inputValue={searchTerm}
+        onInputChange={(event, newValue) => {
+          setSearchTerm(newValue);
+          handleSearchChange(event, newValue);
+        }}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            variant="outlined"
+            placeholder="Search products..."
+            fullWidth
+            InputProps={{
+              ...params.InputProps,
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
+            }}
+          />
+        )}
+        renderOption={(props, option) => (
+          <Box component="li" {...props}>
+            {option}
+          </Box>
+        )}
+      />
 
       <Tabs
         value={selectedType}
