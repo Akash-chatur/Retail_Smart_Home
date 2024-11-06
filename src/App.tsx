@@ -18,6 +18,7 @@ import initialProducts from './data/products.json';
 import Trending from './components/Trending/Trending';
 import Inventory from './components/Inventory/Inventory';
 import SalesReport from './components/SalesReport/SalesReport';
+import CustomerService from './components/CustomerService/CustomerService';
 
 const theme = createTheme({
   palette: {
@@ -86,6 +87,7 @@ React.useEffect(() => {
           {user?.role === 'Customer' && (
             <>
             <Button color="inherit" component={Link} to="/trending">Trending</Button>
+            <Button color="inherit" component={Link} to="/customer-service">Customer Service</Button>
             <Button color="inherit" component={Link} to="/cart">Cart ({cart.length})</Button>
             </>
           )}
@@ -121,6 +123,7 @@ React.useEffect(() => {
                 <Route path="/cart" element={<ShoppingCart cart={cart} removeFromCart={removeFromCart} updateCartQuantity={updateCartQuantity} />} />
                 <Route path="/order" element={<OrderForm clearCart={clearCart} cart={cart} />} />
                 <Route path="/order-status" element={<OrderStatus />} />
+                <Route path="/customer-service" element={<CustomerService/>} />
               </>
             )}
             <Route path="*" element={<Navigate to={user?.role === 'Customer' ? "/products" : user?.role === 'Salesman' ? "/manage-users" : "/manage-products"} />} />

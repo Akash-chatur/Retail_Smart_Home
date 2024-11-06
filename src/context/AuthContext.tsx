@@ -62,6 +62,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             username: result.username,
             role: result.role || 'Customer' 
           });
+          localStorage.setItem('userId', result.userId)
           return true;
         } else {
           console.error('Login failed:', result.message); // Handle error case if login fails
