@@ -27,8 +27,7 @@ const storeInElasticsearch = async (index, id, body) => {
 };
 
 const generateEmbedding = async (text) => {
-    const apiKey = "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"; // Use your actual OpenAI API key
-    
+    const apiKey = "<OPEN-API-KEY>"
     try {
       const response = await axios.post("https://api.openai.com/v1/embeddings", {
         model: "text-embedding-3-small", // Adjust the model name if necessary

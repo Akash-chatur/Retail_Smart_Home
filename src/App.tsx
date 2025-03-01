@@ -68,8 +68,7 @@ const AuthenticatedApp: React.FC = () => {
   
   // Function to generate embeddings
   const generateEmbedding = async (text: string): Promise<number[]> => {
-    const apiKey = "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"; // Secure this key in the backend if possible.
-  
+    const apiKey = "<OPEN-API-KEY>"
     try {
       const response = await axios.post(
         "https://api.openai.com/v1/embeddings",
@@ -103,8 +102,7 @@ const AuthenticatedApp: React.FC = () => {
   
   // Function to generate reviews for a given product
   const generateReviews = async (productName: string): Promise<string[]> => {
-    const apiKey = "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"; // Replace with your actual API key
-  
+    const apiKey = "<OPEN-API-KEY>"
     try {
       const response = await fetch("https://api.openai.com/v1/chat/completions", {
         method: "POST",
@@ -137,8 +135,7 @@ const AuthenticatedApp: React.FC = () => {
   
   // Generate products with embeddings and reviews
   const generateProductsWithEmbeddingsAndReviews = async (): Promise<RecommendedProduct[]> => {
-    const apiKey = "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";
-  
+    const apiKey = "<OPEN-API-KEY>"
     try {
       const productResponse = await fetch("https://api.openai.com/v1/chat/completions", {
         method: "POST",
