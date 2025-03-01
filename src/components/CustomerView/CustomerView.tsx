@@ -191,7 +191,7 @@ const CustomerView: React.FC<CustomerViewProps> = ({ addToCart }) => {
   };
 
   const filteredProducts = selectedType === "All" ? products : products.filter(product => product.type === selectedType);
-  console.log("filtered products = ", filteredProducts)
+  //console.log("filtered products = ", filteredProducts)
 
   if (loading) {
     return <CircularProgress />;
@@ -208,7 +208,7 @@ const CustomerView: React.FC<CustomerViewProps> = ({ addToCart }) => {
         component={RouterLink}
         to="/order-status"
         variant="contained"
-        color="secondary"
+        color="primary"
         sx={{ mb: 3, borderRadius: 2, paddingX: 4 }}
       >
         View Order Status
@@ -250,7 +250,7 @@ const CustomerView: React.FC<CustomerViewProps> = ({ addToCart }) => {
         value={selectedType}
         onChange={handleTypeChange}
         indicatorColor="primary"
-        textColor="primary"
+        textColor="secondary"
         variant="scrollable"
         scrollButtons="auto"
         sx={{ mb: 3 }}
@@ -299,7 +299,7 @@ const CustomerView: React.FC<CustomerViewProps> = ({ addToCart }) => {
                     <Typography variant="body2" color="text.secondary" sx={{ textDecoration: 'line-through', mt: 1 }}>
                       ${product.price.toFixed(2)}
                     </Typography>
-                    <Typography variant="h6" color="primary" sx={{ fontWeight: 'bold' }}>
+                    <Typography variant="h6" color="secondary" sx={{ fontWeight: 'bold' }}>
                       ${(product.price - product.specialDiscount).toFixed(2)}
                       <Chip label={`${((product.specialDiscount / product.price) * 100).toFixed(0)}% off`} size="small" sx={{ ml: 1 }} />
                     </Typography>
@@ -316,7 +316,7 @@ const CustomerView: React.FC<CustomerViewProps> = ({ addToCart }) => {
                 )}
                 <Button
                   variant="contained"
-                  color="primary"
+                  color="secondary"
                   onClick={() => handleAddToCart(product)}
                   sx={{ mt: 2, borderRadius: 2 }}
                   fullWidth
@@ -391,19 +391,19 @@ const CustomerView: React.FC<CustomerViewProps> = ({ addToCart }) => {
 
               <Divider sx={{ mb: 3 }} />
 
-              <Typography variant="h5" color="primary" sx={{ fontWeight: 'bold', mb: 2 }}>
+              <Typography variant="h5" color="secondary" sx={{ fontWeight: 'bold', mb: 2 }}>
                 Price: ${selectedProduct.price.toFixed(2)}
               </Typography>
 
               {selectedProduct.manufacturerRebate && (
-                <Typography variant="body2" color="secondary" sx={{ mb: 3 }}>
+                <Typography variant="body2" color="primary" sx={{ mb: 3 }}>
                   {((selectedProduct.manufacturerRebate / selectedProduct.price) * 100).toFixed(0)}% cashback
                 </Typography>
               )}
 
               <Button
                 variant="contained"
-                color="primary"
+                color="secondary"
                 onClick={() => handleAddToCart(selectedProduct)}
                 sx={{ mt: 2, borderRadius: 3, '&:hover': { backgroundColor: '#1976d2' } }}
                 fullWidth
@@ -420,7 +420,7 @@ const CustomerView: React.FC<CustomerViewProps> = ({ addToCart }) => {
               <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 3 }}>
                 <Button
                   variant="contained"
-                  color="primary"
+                  color="secondary"
                   onClick={handleOpenReviewDialog}
                   sx={{ borderRadius: 1, flex: 1, mr: 1, '&:hover': { backgroundColor: '#1976d2' } }}
                 >
@@ -447,7 +447,7 @@ const CustomerView: React.FC<CustomerViewProps> = ({ addToCart }) => {
                     <CardContent>
                       <Typography variant="body1">{accessory.name}</Typography>
                       <Typography>${accessory.price.toFixed(2)}</Typography>
-                      <Button variant="outlined" color="primary" onClick={() => handleAddToCart(accessory)} sx={{ mt: 1 }}>
+                      <Button variant="outlined" color="secondary" onClick={() => handleAddToCart(accessory)} sx={{ mt: 1 }}>
                         Add to Cart
                       </Button>
                     </CardContent>
@@ -463,7 +463,7 @@ const CustomerView: React.FC<CustomerViewProps> = ({ addToCart }) => {
                     <CardContent>
                       <Typography variant="body1">{warranty.duration} Warranty</Typography>
                       <Typography>${warranty.price.toFixed(2)}</Typography>
-                      <Button variant="outlined" color="primary" onClick={() => handleAddToCart(warranty)} sx={{ mt: 1 }}>
+                      <Button variant="outlined" color="secondary" onClick={() => handleAddToCart(warranty)} sx={{ mt: 1 }}>
                         Add to Cart
                       </Button>
                     </CardContent>
