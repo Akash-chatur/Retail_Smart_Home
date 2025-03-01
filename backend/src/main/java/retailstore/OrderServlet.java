@@ -35,101 +35,40 @@ public class OrderServlet extends HttpServlet {
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Methods", "GET");
         response.setHeader("Access-Control-Allow-Headers", "Content-Type");
+        response.setContentType("application/json");
 
         String userIdParam = request.getParameter("userId");
-        if (userIdParam == null) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing userId parameter");
-            return;
-        }
+        String action = request.getParameter("action");
 
         try {
-            int userId = Integer.parseInt(userIdParam);
-            List<Order> orders = MySQLDataStoreUtilities.getOrdersByUserId(userId);
-
             JSONObject jsonResponse = new JSONObject();
-            JSONArray orderArray = new JSONArray();
-
-            for (Order order : orders) {
-                JSONObject orderJson = new JSONObject();
-                orderJson.put("id", order.getId());
-                orderJson.put("userId", order.getUserId());
-                orderJson.put("confirmation", order.getConfirmation());
-                orderJson.put("deliveryDate", order.getDeliveryDate());
-                orderJson.put("status", order.getStatus());
-                orderArray.put(orderJson);
+            
+            if ("getAllOrders".equals(action)) {
+                List<Order> allOrders = MySQLDataStoreUtilities.getAllOrders();
+                jsonResponse.put("orders", new JSONArray(allOrders));
+            } else if ("getSalesData".equals(action)) {
+                List<SalesDataItem> salesData = MySQLDataStoreUtilities.getSalesData();
+                jsonResponse.put("salesData", new JSONArray(salesData));
+            } else if ("getDailySales".equals(action)) {
+                List<DailySalesItem> dailySales = MySQLDataStoreUtilities.getDailySales();
+                jsonResponse.put("dailySales", new JSONArray(dailySales));
+            } else if (userIdParam != null) {
+                int userId = Integer.parseInt(userIdParam);
+                List<Order> userOrders = MySQLDataStoreUtilities.getOrdersByUserId(userId);
+                jsonResponse.put("orders", new JSONArray(userOrders));
+            } else {
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid action or missing userId");
+                return;
             }
 
-            jsonResponse.put("orders", orderArray);
-            response.setContentType("application/json");
             response.getWriter().write(jsonResponse.toString());
-        } catch (NumberFormatException e) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid userId format");
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error processing request");
         }
     }
     
-//    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        response.setHeader("Access-Control-Allow-Origin", "*");
-//        response.setHeader("Access-Control-Allow-Methods", "POST");
-//        response.setHeader("Access-Control-Allow-Headers", "Content-Type");
-//
-//        StringBuilder sb = new StringBuilder();
-//        String line;
-//        try (BufferedReader reader = request.getReader()) {
-//            while ((line = reader.readLine()) != null) {
-//                sb.append(line);
-//            }
-//        }
-//
-//        String jsonString = sb.toString();
-//        JSONObject jsonRequest = new JSONObject(jsonString);
-//
-//        String action = jsonRequest.optString("action");
-//
-//        if ("cancel".equals(action)) {
-//            int orderId = jsonRequest.getInt("orderId");
-//            boolean success = MySQLDataStoreUtilities.cancelOrder(orderId);
-//
-//            JSONObject jsonResponse = new JSONObject();
-//            if (success) {
-//                jsonResponse.put("status", "success");
-//                jsonResponse.put("message", "Order canceled successfully");
-//            } else {
-//                jsonResponse.put("status", "error");
-//                jsonResponse.put("message", "Failed to cancel order");
-//            }
-//            response.setContentType("application/json");
-//            response.getWriter().write(jsonResponse.toString());
-//            return;
-//        }
-//
-//        // Handle placing a new order with additional fields
-//        int userId = jsonRequest.getInt("userId");
-//        String userName = jsonRequest.getString("userName");
-//        String confirmation = jsonRequest.getString("confirmation");
-//        String deliveryDate = jsonRequest.getString("deliveryDate");
-//        String status = jsonRequest.getString("status");
-//        String zipcode = jsonRequest.getString("zipcode");
-//        int productId = jsonRequest.getInt("productId");
-//        String productName = jsonRequest.getString("productName");
-//        String productType = jsonRequest.getString("productType");
-//        String productDescription = jsonRequest.getString("productDescription");
-//
-//        boolean success = MySQLDataStoreUtilities.addOrderToDatabase(userId, userName, confirmation, deliveryDate, status, zipcode, productId, productName, productType, productDescription);
-//
-//        JSONObject jsonResponse = new JSONObject();
-//        if (success) {
-//            jsonResponse.put("status", "success");
-//            jsonResponse.put("message", "Order placed successfully");
-//        } else {
-//            jsonResponse.put("status", "error");
-//            jsonResponse.put("message", "Failed to place order");
-//        }
-//
-//        System.out.println("order response = " + jsonResponse.toString());
-//        response.setContentType("application/json");
-//        response.getWriter().write(jsonResponse.toString());
-//    }
-    
+   
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Set response headers for CORS
         response.setHeader("Access-Control-Allow-Origin", "*");
@@ -165,9 +104,8 @@ public class OrderServlet extends HttpServlet {
 
     // Method to handle placing an order
     private void handlePlaceOrder(Map<String, Object> orderRequest, HttpServletResponse response) throws IOException {
-        // Extract fields from orderRequest
-    	Gson gson = new Gson();
-    	
+        Gson gson = new Gson();
+        
         int userId = ((Double) orderRequest.get("user_id")).intValue();
         String userName = (String) orderRequest.get("userName");
         String customerAddress = (String) orderRequest.get("customerAddress");
@@ -217,6 +155,11 @@ public class OrderServlet extends HttpServlet {
                 storeId,
                 storeAddress
             );
+
+            // Reduce product quantity only if the order is successfully placed
+            if (orderPlaced) {
+                MySQLDataStoreUtilities.updateProductQuantity(productId, quantity);
+            }
         } catch (ParseException e) {
             e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -236,6 +179,7 @@ public class OrderServlet extends HttpServlet {
         }
     }
 
+
     // Method to handle canceling an order
     private void handleCancelOrder(Map<String, Object> orderRequest, HttpServletResponse response) throws IOException {
     	Gson gson = new Gson();
@@ -252,9 +196,6 @@ public class OrderServlet extends HttpServlet {
             response.getWriter().write(gson.toJson("Failed to cancel order."));
         }
     }
-
-
-
 
 
     @Override

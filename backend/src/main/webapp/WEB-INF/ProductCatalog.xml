@@ -1,0 +1,732 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<products>
+    <product>
+        <id>1001</id>
+        <name>Ring Doorbell</name>
+        <type>Smart Doorbells</type>
+        <price>99.99</price>
+        <description>HD video doorbell with two-way talk</description>
+        <special_discount>10</special_discount>
+        <manufacturer_rebate></manufacturer_rebate>
+        <image_url>/assets/images/ring_doorbell.jpg</image_url>
+        <quantity>15</quantity>
+        <accessories>
+            <accessory>
+                <id>1101</id>
+                <name>Ring Doorbell Pro Corner Kit</name>
+                <price>19.99</price>
+            </accessory>
+        </accessories>
+        <warrantyOptions>
+            <warranty>
+                <id>2101</id>
+                <name>2 Year Extended Warranty</name>
+                <duration>2 Years</duration>
+                <price>24.99</price>
+            </warranty>
+        </warrantyOptions>
+    </product>
+    
+    <product>
+        <id>1003</id>
+        <name>Amazon Echo</name>
+        <type>Smart Speakers</type>
+        <price>79.99</price>
+        <description>Voice-controlled smart speaker with Alexa</description>
+        <special_discount></special_discount>
+        <manufacturer_rebate></manufacturer_rebate>
+        <image_url>/assets/images/amazon_echo.jpg</image_url>
+        <quantity>15</quantity>
+        <accessories>
+            <accessory>
+                <id>1102</id>
+                <name>Echo Wall Mount</name>
+                <price>14.99</price>
+            </accessory>
+        </accessories>
+        <warrantyOptions>
+            <warranty>
+                <id>2102</id>
+                <name>1 Year Protection Plan</name>
+                <duration>1 Year</duration>
+                <price>9.99</price>
+            </warranty>
+        </warrantyOptions>
+    </product>
+    
+    <product>
+        <id>1004</id>
+        <name>Philips RGBIC Smart Floor Lamp</name>
+        <type>Smart Lightings</type>
+        <price>59.99</price>
+        <description>Smart LED Floor Lamp with customizable colors</description>
+        <special_discount>12</special_discount>
+        <manufacturer_rebate></manufacturer_rebate>
+        <image_url>/assets/images/floor_lamp.jpg</image_url>
+        <quantity>15</quantity>
+        <accessories>
+            <accessory>
+                <id>1103</id>
+                <name>Philips Hue Bridge</name>
+                <price>59.99</price>
+            </accessory>
+        </accessories>
+        <warrantyOptions>
+            <warranty>
+                <id>2103</id>
+                <name>3 Year Extended Warranty</name>
+                <duration>3 Years</duration>
+                <price>14.99</price>
+            </warranty>
+        </warrantyOptions>
+    </product>
+    
+    <product>
+        <id>1005</id>
+        <name>Nest Thermostat</name>
+        <type>Smart Thermostats</type>
+        <price>249.99</price>
+        <description>Smart thermostat with energy-saving features</description>
+        <special_discount></special_discount>
+        <manufacturer_rebate>25</manufacturer_rebate>
+        <image_url>/assets/images/smart_thermostat.jpg</image_url>
+        <quantity>15</quantity>
+        <accessories>
+            <accessory>
+                <id>1104</id>
+                <name>Nest Temperature Sensor</name>
+                <price>39.99</price>
+            </accessory>
+        </accessories>
+        <warrantyOptions>
+            <warranty>
+                <id>2104</id>
+                <name>2 Year Protection Plan</name>
+                <duration>2 Years</duration>
+                <price>29.99</price>
+            </warranty>
+        </warrantyOptions>
+    </product>
+    
+    <product>
+        <id>1006</id>
+        <name>Arlo Essential Wired Video Doorbell</name>
+        <type>Smart Doorbells</type>
+        <price>199.99</price>
+        <description>HD Video, 180° View, Night Vision, 2 Way Audio, DIY Installation</description>
+        <special_discount>13</special_discount>
+        <manufacturer_rebate></manufacturer_rebate>
+        <image_url>/assets/images/arlo_smart_door_bell.jpg</image_url>
+        <quantity>15</quantity>
+        <accessories>
+            <accessory>
+                <id>1105</id>
+                <name>Arlo Doorbell Chime</name>
+                <price>49.99</price>
+            </accessory>
+        </accessories>
+        <warrantyOptions>
+            <warranty>
+                <id>2105</id>
+                <name>1 Year Extended Warranty</name>
+                <duration>1 Year</duration>
+                <price>19.99</price>
+            </warranty>
+        </warrantyOptions>
+    </product>
+    
+    <product>
+        <id>1007</id>
+        <name>Yale Assure Lock</name>
+        <type>Smart Doorlocks</type>
+        <price>279.99</price>
+        <description>Touchscreen deadbolt with smart home integration</description>
+        <special_discount>20</special_discount>
+        <manufacturer_rebate></manufacturer_rebate>
+        <image_url>/assets/images/yale_assure.jpg</image_url>
+        <quantity>15</quantity>
+        <accessories>
+            <accessory>
+                <id>1106</id>
+                <name>Yale Connect Wi-Fi Bridge</name>
+                <price>69.99</price>
+            </accessory>
+        </accessories>
+        <warrantyOptions>
+            <warranty>
+                <id>2106</id>
+                <name>3 Year Protection Plan</name>
+                <duration>3 Years</duration>
+                <price>39.99</price>
+            </warranty>
+        </warrantyOptions>
+    </product>
+    
+    <product>
+        <id>1008</id>
+        <name>Google Nest Mini</name>
+        <type>Smart Speakers</type>
+        <price>49.99</price>
+        <description>Compact smart speaker with Google Assistant</description>
+        <special_discount></special_discount>
+        <manufacturer_rebate>11</manufacturer_rebate>
+        <image_url>/assets/images/google_nest.jpg</image_url>
+        <quantity>15</quantity>
+        <accessories>
+            <accessory>
+                <id>1107</id>
+                <name>Nest Mini Wall Mount</name>
+                <price>15.99</price>
+            </accessory>
+        </accessories>
+        <warrantyOptions>
+            <warranty>
+                <id>2107</id>
+                <name>1 Year Protection Plan</name>
+                <duration>1 Year</duration>
+                <price>7.99</price>
+            </warranty>
+        </warrantyOptions>
+    </product>
+    
+    <product>
+        <id>1009</id>
+        <name>Lutron Caseta</name>
+        <type>Smart Lightings</type>
+        <price>159.99</price>
+        <description>Smart dimmer switch starter kit</description>
+        <special_discount></special_discount>
+        <manufacturer_rebate></manufacturer_rebate>
+        <image_url>/assets/images/caseta_switch.jpg</image_url>
+        <quantity>15</quantity>
+        <accessories>
+            <accessory>
+                <id>1108</id>
+                <name>Lutron Pico Remote Control</name>
+                <price>24.99</price>
+            </accessory>
+        </accessories>
+        <warrantyOptions>
+            <warranty>
+                <id>2108</id>
+                <name>2 Year Extended Warranty</name>
+                <duration>2 Years</duration>
+                <price>19.99</price>
+            </warranty>
+        </warrantyOptions>
+    </product>
+    
+    <product>
+        <id>1010</id>
+        <name>Ecobee SmartThermostat</name>
+        <type>Smart Thermostats</type>
+        <price>249.99</price>
+        <description>Voice-enabled smart thermostat with room sensors</description>
+        <special_discount>15</special_discount>
+        <manufacturer_rebate>20</manufacturer_rebate>
+        <image_url>/assets/images/ecobee_smart_thermostat.jpg</image_url>
+        <quantity>15</quantity>
+        <accessories>
+            <accessory>
+                <id>1109</id>
+                <name>Ecobee SmartSensor 2 Pack</name>
+                <price>79.99</price>
+            </accessory>
+        </accessories>
+        <warrantyOptions>
+            <warranty>
+                <id>2109</id>
+                <name>3 Year Protection Plan</name>
+                <duration>3 Years</duration>
+                <price>34.99</price>
+            </warranty>
+        </warrantyOptions>
+    </product>
+    
+    <product>
+        <id>2006</id>
+        <name>Google Nest Doorbell (Battery)</name>
+        <type>Smart Doorbells</type>
+        <price>179.99</price>
+        <description>Battery-powered video doorbell with Google Assistant</description>
+        <special_discount></special_discount>
+        <manufacturer_rebate>5</manufacturer_rebate>
+        <image_url>/assets/images/google_nest_doorbell.jpg</image_url>
+        <quantity>15</quantity>
+        <accessories>
+            <accessory>
+                <id>1110</id>
+                <name>Nest Doorbell Wedge Mount</name>
+                <price>14.99</price>
+            </accessory>
+        </accessories>
+        <warrantyOptions>
+            <warranty>
+                <id>2110</id>
+                <name>2 Year Extended Warranty</name>
+                <duration>2 Years</duration>
+                <price>24.99</price>
+            </warranty>
+        </warrantyOptions>
+    </product>
+    
+    <product>
+        <id>2007</id>
+        <name>Eufy Security Video Doorbell 2K</name>
+        <type>Smart Doorbells</type>
+        <price>129.99</price>
+        <description>2K resolution video doorbell with AI detection</description>
+        <special_discount>15</special_discount>
+        <manufacturer_rebate></manufacturer_rebate>
+        <image_url>/assets/images/eufy_security_doorbell.jpg</image_url>
+        <quantity>15</quantity>
+        <accessories>
+            <accessory>
+                <id>1111</id>
+                <name>Eufy Doorbell Chime</name>
+                <price>39.99</price>
+            </accessory>
+        </accessories>
+        <warrantyOptions>
+            <warranty>
+                <id>2111</id>
+                <name>1 Year Protection Plan</name>
+                <duration>1 Year</duration>
+                <price>14.99</price>
+            </warranty>
+        </warrantyOptions>
+    </product>
+    
+    <product>
+        <id>2008</id>
+        <name>SimpliSafe Video Doorbell Pro</name>
+        <type>Smart Doorbells</type>
+        <price>169.99</price>
+        <description>HD video doorbell with motion detection</description>
+        <special_discount></special_discount>
+        <manufacturer_rebate>15</manufacturer_rebate>
+        <image_url>/assets/images/simplisafe_doorbell.jpg</image_url>
+        <quantity>15</quantity>
+        <accessories>
+            <accessory>
+                <id>1112</id>
+                <name>SimpliSafe Doorbell Wedge Kit</name>
+                <price>19.99</price>
+            </accessory>
+        </accessories>
+        <warrantyOptions>
+            <warranty>
+                <id>2112</id>
+                <name>2 Year Extended Warranty</name>
+                <duration>2 Years</duration>
+                <price>29.99</price>
+            </warranty>
+        </warrantyOptions>
+    </product>
+    
+    <product>
+        <id>3001</id>
+        <name>August Wi-Fi Smart Lock</name>
+        <type>Smart Doorlocks</type>
+        <price>229.99</price>
+        <description>Smart lock with Wi-Fi connectivity and auto-unlock feature</description>
+        <special_discount></special_discount>
+        <manufacturer_rebate></manufacturer_rebate>
+        <image_url>/assets/images/august_wifi_smart_lock.jpg</image_url>
+        <quantity>15</quantity>
+        <accessories>
+            <accessory>
+                <id>1113</id>
+                <name>August Connect Wi-Fi Bridge</name>
+                <price>79.99</price>
+            </accessory>
+        </accessories>
+        <warrantyOptions>
+            <warranty>
+                <id>2113</id>
+                <name>3 Year Protection Plan</name>
+                <duration>3 Years</duration>
+                <price>39.99</price>
+            </warranty>
+        </warrantyOptions>
+    </product>
+    
+    <product>
+        <id>3002</id>
+        <name>Schlage Encode Smart Wi-Fi Deadbolt</name>
+        <type>Smart Doorlocks</type>
+        <price>249.99</price>
+        <description>Smart deadbolt with built-in Wi-Fi and voice control</description>
+        <special_discount>30</special_discount>
+        <manufacturer_rebate></manufacturer_rebate>
+        <image_url>/assets/images/schlage_encode_deadbolt.jpg</image_url>
+        <quantity>15</quantity>
+        <accessories>
+            <accessory>
+                <id>1114</id>
+                <name>Schlage Decorative Door Handle</name>
+                <price>49.99</price>
+            </accessory>
+        </accessories>
+        <warrantyOptions>
+            <warranty>
+                <id>2114</id>
+                <name>2 Year Extended Warranty</name>
+                <duration>2 Years</duration>
+                <price>34.99</price>
+            </warranty>
+        </warrantyOptions>
+    </product>
+    
+   <product>
+    <id>3003</id>
+    <name>Kwikset Halo Touchscreen Wi-Fi Smart Lock</name>
+    <type>Smart Doorlocks</type>
+    <price>199.99</price>
+    <description>Touchscreen smart lock with Wi-Fi and app control</description>
+    <special_discount></special_discount>
+    <manufacturer_rebate>7</manufacturer_rebate>
+    <image_url>/assets/images/kwikset_halo_smart_lock.jpg</image_url>
+    <quantity>15</quantity>
+    <accessories>
+        <accessory>
+            <id>1173</id>
+            <name>Kwikset SmartKey Re-Key Kit</name>
+            <price>14.99</price>
+        </accessory>
+        <accessory>
+            <id>1174</id>
+            <name>Backup Battery Pack</name>
+            <price>24.99</price>
+        </accessory>
+    </accessories>
+    <warrantyOptions>
+        <warranty>
+            <id>1175</id>
+            <name>2 Year Extended Warranty</name>
+            <duration>2 Years</duration>
+            <price>39.99</price>
+        </warranty>
+    </warrantyOptions>
+</product>
+
+<product>
+    <id>3004</id>
+    <name>Level Bolt Smart Lock</name>
+    <type>Smart Doorlocks</type>
+    <price>199.00</price>
+    <description>Invisible smart lock that fits inside your door</description>
+    <special_discount></special_discount>
+    <manufacturer_rebate></manufacturer_rebate>
+    <image_url>/assets/images/level_bolt_smart_lock.jpg</image_url>
+    <quantity>15</quantity>
+    <accessories>
+        <accessory>
+            <id>1176</id>
+            <name>Level Touch Key Card</name>
+            <price>19.99</price>
+        </accessory>
+        <accessory>
+            <id>1177</id>
+            <name>Level Lock Adapter Kit</name>
+            <price>29.99</price>
+        </accessory>
+    </accessories>
+    <warrantyOptions>
+        <warranty>
+            <id>1178</id>
+            <name>3 Year Protection Plan</name>
+            <duration>3 Years</duration>
+            <price>49.99</price>
+        </warranty>
+    </warrantyOptions>
+</product>
+
+<product>
+    <id>4001</id>
+    <name>Sonos One (Gen 2)</name>
+    <type>Smart Speakers</type>
+    <price>199.00</price>
+    <description>Voice-controlled smart speaker with Alexa and Google Assistant</description>
+    <special_discount>25</special_discount>
+    <manufacturer_rebate></manufacturer_rebate>
+    <image_url>/assets/images/sonos_one_gen2.jpg</image_url>
+    <quantity>15</quantity>
+    <accessories>
+        <accessory>
+            <id>1179</id>
+            <name>Sonos Wall Mount</name>
+            <price>39.99</price>
+        </accessory>
+        <accessory>
+            <id>1180</id>
+            <name>Sonos Ethernet Cable</name>
+            <price>19.99</price>
+        </accessory>
+    </accessories>
+    <warrantyOptions>
+        <warranty>
+            <id>1181</id>
+            <name>2 Year Extended Warranty</name>
+            <duration>2 Years</duration>
+            <price>39.99</price>
+        </warranty>
+    </warrantyOptions>
+</product>
+
+<product>
+    <id>4002</id>
+    <name>Bose Home Speaker 500</name>
+    <type>Smart Speakers</type>
+    <price>299.00</price>
+    <description>Smart speaker with Alexa and Google Assistant built-in</description>
+    <special_discount></special_discount>
+    <manufacturer_rebate></manufacturer_rebate>
+    <image_url>/assets/images/bose_home_speaker_500.jpg</image_url>
+    <quantity>15</quantity>
+    <accessories>
+        <accessory>
+            <id>1182</id>
+            <name>Bose Speaker Stand</name>
+            <price>79.99</price>
+        </accessory>
+        <accessory>
+            <id>1183</id>
+            <name>Bose Remote Control</name>
+            <price>29.99</price>
+        </accessory>
+    </accessories>
+    <warrantyOptions>
+        <warranty>
+            <id>1184</id>
+            <name>3 Year Protection Plan</name>
+            <duration>3 Years</duration>
+            <price>59.99</price>
+        </warranty>
+    </warrantyOptions>
+</product>
+
+<product>
+    <id>4003</id>
+    <name>Harman Kardon Citation One</name>
+    <type>Smart Speakers</type>
+    <price>199.95</price>
+    <description>Smart speaker with Google Assistant</description>
+    <special_discount></special_discount>
+    <manufacturer_rebate>9</manufacturer_rebate>
+    <image_url>/assets/images/harman_kardon_citation_one.jpg</image_url>
+    <quantity>15</quantity>
+    <accessories>
+        <accessory>
+            <id>1185</id>
+            <name>Citation One Cover</name>
+            <price>29.99</price>
+        </accessory>
+        <accessory>
+            <id>1186</id>
+            <name>Citation Power Cable</name>
+            <price>19.99</price>
+        </accessory>
+    </accessories>
+    <warrantyOptions>
+        <warranty>
+            <id>1187</id>
+            <name>2 Year Extended Warranty</name>
+            <duration>2 Years</duration>
+            <price>39.99</price>
+        </warranty>
+    </warrantyOptions>
+</product>
+
+<product>
+    <id>5001</id>
+    <name>Nanoleaf Shapes Hexagons</name>
+    <type>Smart Lightings</type>
+    <price>199.99</price>
+    <description>Modular smart lighting panels with customizable colors and shapes</description>
+    <special_discount>10</special_discount>
+    <manufacturer_rebate></manufacturer_rebate>
+    <image_url>/assets/images/nanoleaf_shapes_hexagons.jpg</image_url>
+    <quantity>15</quantity>
+    <accessories>
+        <accessory>
+            <id>1188</id>
+            <name>Nanoleaf Mounting Kit</name>
+            <price>24.99</price>
+        </accessory>
+        <accessory>
+            <id>1189</id>
+            <name>Nanoleaf Power Supply</name>
+            <price>29.99</price>
+        </accessory>
+    </accessories>
+    <warrantyOptions>
+        <warranty>
+            <id>1190</id>
+            <name>2 Year Protection Plan</name>
+            <duration>2 Years</duration>
+            <price>39.99</price>
+        </warranty>
+    </warrantyOptions>
+</product>
+
+<product>
+    <id>5002</id>
+    <name>Sengled Smart LED Multicolor Bulb</name>
+    <type>Smart Lightings</type>
+    <price>29.99</price>
+    <description>Smart LED bulb with multicolor and dimmable features</description>
+    <special_discount></special_discount>
+    <manufacturer_rebate></manufacturer_rebate>
+    <image_url>/assets/images/sengled_smart_led_bulb.jpg</image_url>
+    <quantity>15</quantity>
+    <accessories>
+        <accessory>
+            <id>1191</id>
+            <name>Sengled Hub</name>
+            <price>29.99</price>
+        </accessory>
+        <accessory>
+            <id>1192</id>
+            <name>Sengled Dimmer Switch</name>
+            <price>19.99</price>
+        </accessory>
+    </accessories>
+    <warrantyOptions>
+        <warranty>
+            <id>1193</id>
+            <name>1 Year Extended Warranty</name>
+            <duration>1 Year</duration>
+            <price>9.99</price>
+        </warranty>
+    </warrantyOptions>
+</product>
+
+<product>
+    <id>5003</id>
+    <name>TP-Link Kasa Smart Light Strip</name>
+    <type>Smart Lightings</type>
+    <price>69.99</price>
+    <description>Smart light strip with customizable colors and app control</description>
+    <special_discount>18</special_discount>
+    <manufacturer_rebate></manufacturer_rebate>
+    <image_url>/assets/images/tp_link_kasa_light_strip.jpg</image_url>
+    <quantity>15</quantity>
+    <accessories>
+        <accessory>
+            <id>1194</id>
+            <name>Kasa Extension Strip</name>
+            <price>19.99</price>
+        </accessory>
+        <accessory>
+            <id>1195</id>
+            <name>Kasa Mounting Clips</name>
+            <price>9.99</price>
+        </accessory>
+    </accessories>
+    <warrantyOptions>
+        <warranty>
+            <id>1196</id>
+            <name>2 Year Protection Plan</name>
+            <duration>2 Years</duration>
+            <price>14.99</price>
+        </warranty>
+    </warrantyOptions>
+</product>
+
+<product>
+    <id>6007</id>
+    <name>Honeywell Home T9 Smart Thermostat</name>
+    <type>Smart Thermostats</type>
+    <price>199.99</price>
+    <description>Smart thermostat with room sensors and Alexa compatibility</description>
+    <special_discount></special_discount>
+    <manufacturer_rebate>12</manufacturer_rebate>
+    <image_url>/assets/images/honeywell_t9.jpg</image_url>
+    <quantity>15</quantity>
+    <accessories>
+        <accessory>
+            <id>1197</id>
+            <name>T9 Room Sensor</name>
+            <price>39.99</price>
+        </accessory>
+        <accessory>
+            <id>1198</id>
+            <name>T9 Wall Plate</name>
+            <price>14.99</price>
+        </accessory>
+    </accessories>
+    <warrantyOptions>
+        <warranty>
+            <id>1199</id>
+            <name>3 Year Extended Warranty</name>
+            <duration>3 Years</duration>
+            <price>29.99</price>
+        </warranty>
+    </warrantyOptions>
+</product>
+
+<product>
+    <id>6008</id>
+    <name>Emerson Sensi Touch Wi-Fi Thermostat</name>
+    <type>Smart Thermostats</type>
+    <price>169.99</price>
+    <description>Wi-Fi thermostat with touchscreen and smart home integration</description>
+    <special_discount>21</special_discount>
+    <manufacturer_rebate></manufacturer_rebate>
+    <image_url>/assets/images/emerson_sensi_touch.jpg</image_url>
+    <quantity>15</quantity>
+    <accessories>
+        <accessory>
+            <id>1200</id>
+            <name>Sensi Remote Sensor</name>
+            <price>29.99</price>
+        </accessory>
+        <accessory>
+            <id>1201</id>
+            <name>Sensi Decorative Wall Plate</name>
+            <price>12.99</price>
+        </accessory>
+    </accessories>
+    <warrantyOptions>
+        <warranty>
+            <id>1202</id>
+            <name>2 Year Protection Plan</name>
+            <duration>2 Years</duration>
+            <price>24.99</price>
+        </warranty>
+    </warrantyOptions>
+</product>
+
+<product>
+    <id>6009</id>
+    <name>Lux Kono Smart Thermostat</name>
+    <type>Smart Thermostats</type>
+    <price>149.99</price>
+    <description>Smart thermostat with interchangeable faceplates and app control</description>
+    <special_discount></special_discount>
+    <manufacturer_rebate>15</manufacturer_rebate>
+    <image_url>/assets/images/lux_kono.jpg</image_url>
+    <quantity>15</quantity>
+    <accessories>
+        <accessory>
+            <id>1203</id>
+            <name>Kono Faceplate Set</name>
+            <price>19.99</price>
+        </accessory>
+        <accessory>
+            <id>1204</id>
+            <name>Kono C-Wire Adapter</name>
+            <price>24.99</price>
+        </accessory>
+    </accessories>
+    <warrantyOptions>
+        <warranty>
+            <id>1205</id>
+            <name>2 Year Extended Warranty</name>
+            <duration>2 Years</duration>
+            <price>19.99</price>
+        </warranty>
+    </warrantyOptions>
+</product>
+</products>

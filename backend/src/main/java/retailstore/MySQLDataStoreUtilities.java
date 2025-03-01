@@ -60,20 +60,50 @@ public class MySQLDataStoreUtilities {
     
     public static User validateUser(String username, String password) {
         try (Connection conn = getConnection()) {
-            String query = "SELECT id, username FROM Users WHERE username = ? AND password = ?";
+            String query = "SELECT id, username, role FROM Users WHERE username = ? AND password = ?";
             PreparedStatement ps = conn.prepareStatement(query);
             ps.setString(1, username);
             ps.setString(2, password);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 int userId = rs.getInt("id");
-                return new User(userId, rs.getString("username")); // Return User object
+                return new User(userId, rs.getString("username"), rs.getString("role")); // Return User object
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return null; // Return null if user not found or error occurred
     }
+    
+    public static boolean updateProductQuantity(int productId, int quantityOrdered) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        boolean isUpdated = false;
+        
+        try {
+            conn = getConnection(); // Get your DB connection
+            String query = "UPDATE products SET quantity = quantity - ? WHERE id = ?";
+            pstmt = conn.prepareStatement(query);
+            pstmt.setInt(1, quantityOrdered);
+            pstmt.setInt(2, productId);
+            
+            int rowsAffected = pstmt.executeUpdate();
+            isUpdated = rowsAffected > 0; // Check if the update was successful
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Close resources
+            try {
+                if (pstmt != null) pstmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        
+        return isUpdated;
+    }
+
     
     // Method to get orders by userId
     public static List<Order> getOrdersByUserId(int userId) {
@@ -108,6 +138,89 @@ public class MySQLDataStoreUtilities {
         // Return the list of orders
         return orders;
     }
+    
+
+    //Method to get daily sales data
+    public static List<DailySalesItem> getDailySales() {
+        List<DailySalesItem> dailySales = new ArrayList<>();
+        String query = "SELECT DATE(DATE_SUB(deliveryDate, INTERVAL 14 DAY)) as order_date, " +
+                       "SUM(totalSales) as total_sales " +
+                       "FROM orders " +
+                       "GROUP BY DATE(DATE_SUB(deliveryDate, INTERVAL 14 DAY)) " +
+                       "ORDER BY order_date";
+        
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(query);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                DailySalesItem item = new DailySalesItem(
+                    rs.getDate("order_date"),
+                    rs.getDouble("total_sales")
+                );
+                dailySales.add(item);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return dailySales;
+    }
+    
+    public static List<Order> getAllOrders() {
+        List<Order> orders = new ArrayList<>();
+        String query = "SELECT * FROM orders";
+        
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(query);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Order order = new Order(
+                    rs.getInt("id"),
+                    rs.getInt("user_id"),
+                    rs.getString("confirmation"),
+                    rs.getString("delivery_date"),
+                    rs.getString("status")
+                    // Add other fields as necessary
+                );
+                orders.add(order);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return orders;
+    }
+    
+    //Method to get sales data
+    public static List<SalesDataItem> getSalesData() {
+        List<SalesDataItem> salesData = new ArrayList<>();
+        String query = "SELECT p.name, p.price, COUNT(*) as items_sold, SUM(p.price) as total_sales " +
+                       "FROM orders o JOIN products p ON o.productId = p.id " +
+                       "GROUP BY p.id, p.name, p.price";
+        
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(query);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                SalesDataItem item = new SalesDataItem(
+                    rs.getString("name"),
+                    rs.getDouble("price"),
+                    rs.getInt("items_sold"),
+                    rs.getDouble("total_sales")
+                );
+                salesData.add(item);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return salesData;
+    }
+    
+
     
  // Method to fetch store locations from the database
     public static List<Map<String, String>> getStoreLocations() {
@@ -323,7 +436,18 @@ public class MySQLDataStoreUtilities {
 		} catch (Exception e) {
 		e.printStackTrace();
 		return false;
-	}
-}
+	   }
+	 }
+	 
+	  public static boolean deleteProductById(int id) throws SQLException {
+		    String query = "DELETE FROM products WHERE id = ?";
+		    try (Connection conn = getConnection(); 
+		         PreparedStatement stmt = conn.prepareStatement(query)) {
+		        stmt.setInt(1, id);
+		        int rowsAffected = stmt.executeUpdate();
+		        return rowsAffected > 0;
+		    }
+		}
+
 
 }

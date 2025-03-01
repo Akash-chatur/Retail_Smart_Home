@@ -76,6 +76,7 @@ public class UserServlet extends HttpServlet {
 	            jsonResponse.put("message", "Login successful");
 	            jsonResponse.put("userId", user.getId());
 	            jsonResponse.put("username", user.getUsername());
+	            jsonResponse.put("role", user.getRole());
 	        } else {
 	            jsonResponse.put("status", "error");
 	            jsonResponse.put("message", "Invalid username or password");
